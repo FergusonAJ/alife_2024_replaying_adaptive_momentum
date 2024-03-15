@@ -100,7 +100,7 @@ do
     CROSS_COUNTER=1
     for RELATIVE_UPDATE in $(echo "${RESULT}" | grep -e "Cross" | grep -oP "\d+$")
     do
-        echo "${SLURM_ARRAY_TASK_ID},${LEADING_EDGE_INDEX},${LEADING_EDGE_VAL},${RELATIVE_UPDATE},${CROSS_COUNTER}" >> ${CROSS_INFO_FILE}
+        echo "${SLURM_ARRAY_TASK_ID},${TRIAL_IDX},${LEADING_EDGE_INDEX},${LEADING_EDGE_VAL},${RELATIVE_UPDATE},${CROSS_COUNTER}" >> ${CROSS_INFO_FILE}
         CROSS_COUNTER=$(( ${CROSS_COUNTER} + 1 ))
     done
     # Update bookkeeping
