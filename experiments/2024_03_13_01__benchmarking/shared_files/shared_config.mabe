@@ -1,0 +1,37 @@
+// Experiment values
+Var pop_size = 512;
+// Organism values
+Var num_vals = 1;
+Var max_val = 200;
+
+Population main_pop;
+Population next_pop;
+
+IntsOrg ints_org {
+  N = num_vals;
+  mut_prob = 0.0125;
+  min_val = 0;
+  max_val = max_val;
+  output_name = "ints";
+  init_random = 0;
+};
+
+EvalSawtooth_Regular sawtooth {
+  N = num_vals;
+  ints_trait = "ints";
+  fitness_trait = "fitness";
+  valley_width = 6;
+  step_decrease = 0.05;
+  offset = 6;
+  scale_factor = 1/6;
+};
+
+SelectRoulette select_r {     // Replicate top fitness organisms via roulette selection
+  fitness_fun = "10**fitness";      // Which trait provides the fitness value to use?
+};
+
+Spatial1DPlacement one_d_placement{
+  target = "main_pop";
+  grid_width = pop_size;
+  does_wrap = 0;
+};
