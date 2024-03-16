@@ -1,0 +1,55 @@
+random_seed = 0;                // Seed for random number generator; use 0 to base on time.
+
+// Experiment parameters
+Var print_step = 1;
+Var num_gens = 768;
+Var extra_orgs = 7;
+
+// Momentum window bookkeeping vars
+Var relative_update = 0;
+Var global_update = 0;
+Var was_successful = 0;
+
+// Landscape values
+Var old_peak = 6;
+Var cur_peak = 12;
+Var target_peak = 18;
+Var old_fitness = 1;
+Var cur_fitness = 2;
+Var target_fitness = 3;
+
+
+@START() {
+  PRINT("=== CONFIGURATION ===");
+  PRINT("  Mut Probability:  ", ints_org.mut_prob);
+  PRINT("  Population size:  ", pop_size);
+  PRINT("  Random seed:      ", random_seed);
+
+  // Inject starting population.
+  main_pop.INJECT_GENOME("ints_org", "[ " + cur_peak + " ]", pop_size);
+  relative_update = 0;
+  global_update = 0;
+}
+
+// Actions to perform every update.
+
+@UPDATE(Var ud) {
+  IF (global_update == num_gens){
+    EXIT();
+  } 
+
+  sawtooth.EVAL(main_pop);
+  
+  IF (main_pop.CALC_MAX("fitness") >= target_fitness){
+    was_successful = 1;
+    PRINT("Cross! Relative update: ", relative_update);
+    relative_update = 0;
+    target_fitness = target_fitness + 1;
+  }
+  
+  select_r.SELECT_SPATIAL(main_pop, next_pop);
+  main_pop.REPLACE_WITH(next_pop);
+
+  relative_update = relative_update + 1;
+  global_update = global_update + 1;
+}
