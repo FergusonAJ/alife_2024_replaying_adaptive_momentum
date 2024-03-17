@@ -1,0 +1,137 @@
+#!/bin/bash --login
+#SBATCH --time=23:00:00
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem-per-cpu=1g
+#SBATCH --job-name (<EXP_NAME>)
+#SBATCH --array=1-384
+#SBATCH --output=(<SCRATCH_SLURM_OUT_DIR>)/slurm-%A_%a.out
+
+IS_MOCK=0
+LOAD_MODULES=1
+while getopts "ml" opt; do
+  case $opt in
+    m)
+     IS_MOCK=1
+      ;;
+    l)
+     LOAD_MODULES=0
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      ;;
+  esac
+done
+
+
+# If this is a mocked job 
+if [ ${IS_MOCK} -gt 0 ]
+then
+  if [ -z "${SLURM_ARRAY_TASK_ID}" ]
+  then
+    SLURM_ARRAY_TASK_ID=1
+    echo "SLURM_ARRAY_TASK_ID not defined, setting to ${SLURM_ARRAY_TASK_ID}"
+  fi
+fi
+
+# Load the necessary modules
+if [ ${LOAD_MODULES} -gt 0 ]
+then
+  module purge
+  module load GCC/11.2.0
+  module load OpenMPI/4.1.1
+  module load R/4.1.2
+fi
+
+# Variables, defined by launch script 
+EXP_NAME=(<EXP_NAME>)
+SCRATCH_EXP_DIR=(<SCRATCH_EXP_DIR>)
+SCRATCH_FILE_DIR=(<SCRATCH_FILE_DIR>)
+
+# Use these variables to create a few helper variables
+ZERO_PADDED_TASK_ID=$( ${SCRATCH_FILE_DIR}/zero_pad.sh ${SLURM_ARRAY_TASK_ID} 3 )
+SCRATCH_JOB_DIR=${SCRATCH_EXP_DIR}/reps/${ZERO_PADDED_TASK_ID}
+# Load global helper functions
+. ${SCRATCH_FILE_DIR}/helper_functions.sh
+
+# Calculate the replicate's seed
+SEED_BASE=$( exp_name_to_seed ${EXP_NAME} )
+SEED=$(( ${SEED_BASE} + (${SLURM_ARRAY_TASK_ID} * 10000) ))
+echo "Random seed: ${SEED}: Replicate ID: ${SLURM_ARRAY_TASK_ID}"
+
+# Create replicate-specific directories
+mkdir -p ${SCRATCH_JOB_DIR}
+cd ${SCRATCH_JOB_DIR}
+
+
+######## MAIN ########
+# Create bookkeeping files
+CROSSED_FILE=reps_crossed.txt
+printf "" > ${CROSSED_FILE}
+FAILED_FILE=reps_failed.txt
+printf "" > ${FAILED_FILE}
+FINISHED_FILE=reps_finished.txt
+printf "" > ${FINISHED_FILE}
+CROSS_INFO_FILE=cross_info.csv
+echo "slurm_task_id,leading_edge_index,leading_edge_val,trial_id,relative_update,cross_counter" > ${CROSS_INFO_FILE}
+
+# Sweep through 8 to 512 by 8 (64 steps)
+LEADING_EDGE_INDEX=$(( ( (${SLURM_ARRAY_TASK_ID} - 1) % 64 ) * 8 ))
+LEADING_EDGE_VAL_INDEX=$(( (${SLURM_ARRAY_TASK_ID} - 1) / 64 ))
+
+LEADING_EDGE_VALS=(12 13 14 15 16 17)
+LEADING_EDGE_VAL=${LEADING_EDGE_VALS[${LEADING_EDGE_VAL_INDEX}]}
+
+echo "Leading edge index: ${LEADING_EDGE_INDEX}"
+echo "Leading edge value: ${LEADING_EDGE_VAL}"
+
+NUM_TRIALS=10000
+for TRIAL_IDX in $( seq 1 ${NUM_TRIALS})
+do
+    echo "Starting trial #${TRIAL_IDX}"
+    TRIAL_SEED=$(( ${SEED} + ${TRIAL_IDX} ))
+
+    # Shuffle the population
+    SHUFFLED_POP_FILE=${SCRATCH_JOB_DIR}/shuffled_snapshot.pop
+    python3 ${SCRATCH_FILE_DIR}/shuffle_snapshot.py ${TRIAL_SEED} ${SCRATCH_FILE_DIR}/base_snapshots/val_${LEADING_EDGE_VAL}.pop ${SHUFFLED_POP_FILE}
+
+    # Run!
+    RESULT=$( time ${SCRATCH_FILE_DIR}/MABE \
+        -f ${SCRATCH_FILE_DIR}/shared_config.mabe ${SCRATCH_FILE_DIR}/benchmarking_shuffled.mabe \
+        -s random_seed=${TRIAL_SEED} \
+        -s leading_edge_index=${LEADING_EDGE_INDEX} \
+        -s leading_edge_val=${LEADING_EDGE_VAL} \
+        -s snapshot_to_load=\"${SHUFFLED_POP_FILE}\" )
+    CROSS_COUNTER=1
+    for RELATIVE_UPDATE in $(echo "${RESULT}" | grep -e "Cross" | grep -oP "\d+$")
+    do
+        echo "${SLURM_ARRAY_TASK_ID},${TRIAL_IDX},${LEADING_EDGE_INDEX},${LEADING_EDGE_VAL},${RELATIVE_UPDATE},${CROSS_COUNTER}" >> ${CROSS_INFO_FILE}
+        CROSS_COUNTER=$(( ${CROSS_COUNTER} + 1 ))
+    done
+    # Update bookkeeping
+    MAX_RAW_FITNESS=$(Rscript -e "df=read.csv('fitness.csv')" -e "cat(df[nrow(df),]\$fitness_raw_max, '\n')")
+    echo "MAX_RAW_FITNESS=${MAX_RAW_FITNESS}"
+    if [ ${MAX_RAW_FITNESS} -gt 2 ]
+    then
+        FIRST_GLOBAL_UPDATE=$(Rscript -e "df=read.csv('fitness.csv')" -e "cat(min(df[df\$was_successful == 1,]\$global_update), '\n')")
+        FIRST_RELATIVE_UPDATE=$(Rscript -e "df=read.csv('fitness.csv')" -e "cat(min(df[df\$was_successful == 1,]\$relative_update), '\n')")
+        echo "${TRIAL_IDX},${FIRST_GLOBAL_UPDATE},${FIRST_RELATIVE_UPDATE}" >> ${CROSSED_FILE}
+    fi
+    WINDOWS_FAILED=$(Rscript -e "df=read.csv('fitness.csv')" -e "cat(df[nrow(df),]\$did_window_fail, '\n')" )
+    echo "WINDOWS_FAILED=${WINDOWS_FAILED}"
+    if [ ${WINDOWS_FAILED} -gt 0 ]
+    then
+        echo "${TRIAL_IDX}" >> ${FAILED_FILE}
+    fi
+    echo "${TRIAL_IDX}" >> ${FINISHED_FILE}
+done
+
+
+
+
+# Print slurm info if this is not a mock job
+if [ ${IS_MOCK} -eq 0 ]
+then
+  scontrol show job $SLURM_JOB_ID
+fi
