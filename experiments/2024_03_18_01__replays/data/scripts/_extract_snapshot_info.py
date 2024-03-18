@@ -14,7 +14,8 @@ max_update = int(sys.argv[3])
 old_peak = 6
 cur_peak = 12
 target_peak = 18
-lower_threshold = (cur_peak + old_peak) // 2
+second_target_peak = 24
+lower_threshold = 10
 pop_size = 512
 
 full_data = ''
@@ -25,7 +26,7 @@ full_data += '\n'
 
 with open(out_dir + '/snapshot_data.csv', 'w') as out_fp: 
     header = 'update,leading_edge_index,leading_edge_value,count_under'
-    for i in range(old_peak, target_peak + 1):
+    for i in range(old_peak, second_target_peak + 1):
         header += ',count_' + str(i)
     header += ',count_over'
     out_fp.write(header + '\n')
@@ -47,7 +48,7 @@ with open(out_dir + '/snapshot_data.csv', 'w') as out_fp:
                 val = int(line.split(' ')[1])
                 if val < old_peak:
                     num_under += 1
-                elif val > target_peak:
+                elif val > second_target_peak:
                     num_over += 1
                 else:
                     if val not in count_map.keys():
@@ -64,7 +65,7 @@ with open(out_dir + '/snapshot_data.csv', 'w') as out_fp:
                     ',' + str(leading_edge_index) + \
                     ',' + str(leading_edge_val) + \
                     ',' + str(num_under)
-            for i in range(old_peak, target_peak + 1):
+            for i in range(old_peak, second_target_peak + 1):
                 val = 0
                 if i in count_map.keys():
                    val = count_map[i] 
