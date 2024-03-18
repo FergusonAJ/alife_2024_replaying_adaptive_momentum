@@ -1,5 +1,5 @@
 #!/bin/bash --login
-#SBATCH --time=03:30:00
+#SBATCH --time=23:55:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
@@ -74,7 +74,7 @@ printf "" > ${FAILED_FILE}
 FINISHED_FILE=reps_finished.txt
 printf "" > ${FINISHED_FILE}
 CROSS_INFO_FILE=cross_info.csv
-echo "slurm_task_id,leading_edge_index,leading_edge_val,trial_id,relative_update,cross_counter" > ${CROSS_INFO_FILE}
+echo "slurm_task_id,trial_id,leading_edge_index,leading_edge_val,relative_update,cross_counter" > ${CROSS_INFO_FILE}
 
 # Sweep through 8 to 512 by 8 (64 steps)
 LEADING_EDGE_INDEX=$(( ( (${SLURM_ARRAY_TASK_ID} - 1) % 64 ) * 8 ))
@@ -90,7 +90,7 @@ GENERATED_SNAPSHOT_FILE=${SCRATCH_JOB_DIR}/generated_snapshot.pop
 
 python3 ${SCRATCH_FILE_DIR}/gen_benchmarking_snapshot.py ${LEADING_EDGE_INDEX} ${LEADING_EDGE_VAL} 7 512 ${GENERATED_SNAPSHOT_FILE}
 
-NUM_TRIALS=100
+NUM_TRIALS=10000
 for TRIAL_IDX in $( seq 1 ${NUM_TRIALS})
 do
     echo "Starting trial #${TRIAL_IDX}"
