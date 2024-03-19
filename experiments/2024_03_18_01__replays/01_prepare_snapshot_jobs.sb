@@ -134,7 +134,9 @@ fi
 # Double crosses
 #for REP_ID in 93 124 138 263
 # First few single crosses
-for REP_ID in 11 14 23 26 49
+#for REP_ID in 11 14 23 26 49
+# Our randomly-sampled no-cross replicates
+for REP_ID in 134 158 164 175 252 339 365 394 446 450 
 do
     echo "Preparing rep: ${REP_ID}"
     # Create output sbatch file, and find/replace key info
