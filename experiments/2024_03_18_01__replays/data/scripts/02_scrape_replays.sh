@@ -47,7 +47,10 @@ then
 fi
 
 
-for BASE_REP_ID in 93 124 138 263
+# Scrape reps that cross twice
+#for BASE_REP_ID in 93 124 138 263
+# Scrape single cross reps in batches
+for BASE_REP_ID in 11 14 23 26 49
 do
     ZERO_PADDED_MAIN_ID=$( ${REPO_ROOT_DIR}/global_shared_files/zero_pad.sh ${BASE_REP_ID} 3 )
     echo "Scraping replays for rep: ${ZERO_PADDED_MAIN_ID}"
@@ -55,9 +58,9 @@ do
     # Create our output file
     REP_DIR=../reps/${ZERO_PADDED_MAIN_ID}
     mkdir -p ${REP_DIR}
-    CROSS_INFO_FILE=${REP_DIR}/combined_replay_cross_data.csv
+    FILENAME_PREFIX=combined_replay_cross_data
+    CROSS_INFO_FILE=${REP_DIR}/${FILENAME_PREFIX}.csv
     printf "" > ${CROSS_INFO_FILE}
-    CROSS_INFO_TAR=${REP_DIR}/combined_replay_cross_data.tar.gz
 
     REPLAY_DIR=${SCRATCH_EXP_DIR}/reps/${ZERO_PADDED_MAIN_ID}/replays
     head -n 1 ${REPLAY_DIR}/1/cross_info.csv > ${CROSS_INFO_FILE}
@@ -73,7 +76,9 @@ do
             tail -n $(( ${CROSS_INFO_LINES} - 1 )) ${REP_CROSS_INFO_FILE} >> ${CROSS_INFO_FILE}
         fi
     done
-    tar -czf ${CROSS_INFO_TAR} ${CROSS_INFO_FILE}
+    cd ${REP_DIR}
+    tar -czf ${FILENAME_PREFIX}.tar.gz ${FILENAME_PREFIX}.csv
+    cd ${THIS_DIR}
     printf "  done!\n"
 done
 printf "  done!\n"

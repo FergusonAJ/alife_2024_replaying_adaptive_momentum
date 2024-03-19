@@ -134,7 +134,7 @@ fi
 # Double crosses
 #for REP_ID in 93 124 138 263
 # First few single crosses
-for REP_ID in 011 014 023 026 049
+for REP_ID in 11 14 23 26 49
 do
     echo "Preparing rep: ${REP_ID}"
     # Create output sbatch file, and find/replace key info
