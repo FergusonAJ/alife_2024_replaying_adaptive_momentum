@@ -25,7 +25,7 @@ for i in range(pop_size):
 full_data += '\n'
 
 with open(out_dir + '/snapshot_data.csv', 'w') as out_fp: 
-    header = 'update,leading_edge_index,leading_edge_value,count_under'
+    header = 'update,leading_edge_index,leading_edge_value,count_under,second_leading_edge_left_index,second_leading_edge_left_val,second_leading_edge_right_index,second_leading_edge_right_val'
     for i in range(old_peak, second_target_peak + 1):
         header += ',count_' + str(i)
     header += ',count_over'
@@ -41,6 +41,10 @@ with open(out_dir + '/snapshot_data.csv', 'w') as out_fp:
             count_map = {}
             leading_edge_index = None
             leading_edge_val = None
+            second_leading_edge_left_index = None
+            second_leading_edge_left_val = None
+            second_leading_edge_right_index = None
+            second_leading_edge_right_val = None
             for line in in_fp:
                 line = line.strip()
                 if line == '':
@@ -57,6 +61,13 @@ with open(out_dir + '/snapshot_data.csv', 'w') as out_fp:
                 if val > lower_threshold:
                     leading_edge_index = idx
                     leading_edge_val = val
+                if val >= target_peak and second_leading_edge_left_index is None:
+                    second_leading_edge_left_index = idx
+                    second_leading_edge_left_val = val
+                if val >= target_peak - 1 and second_leading_edge_left_index is not None:
+                    second_leading_edge_right_index = idx
+                    second_leading_edge_right_val = val
+
                 pop[idx] = val
                 full_data += ',' + str(val)
                 idx += 1
@@ -64,7 +75,11 @@ with open(out_dir + '/snapshot_data.csv', 'w') as out_fp:
             data = str(update) + \
                     ',' + str(leading_edge_index) + \
                     ',' + str(leading_edge_val) + \
-                    ',' + str(num_under)
+                    ',' + str(num_under) + \
+                    ',' + str(second_leading_edge_left_index) + \
+                    ',' + str(second_leading_edge_left_val) + \
+                    ',' + str(second_leading_edge_right_index) + \
+                    ',' + str(second_leading_edge_right_val)
             for i in range(old_peak, second_target_peak + 1):
                 val = 0
                 if i in count_map.keys():

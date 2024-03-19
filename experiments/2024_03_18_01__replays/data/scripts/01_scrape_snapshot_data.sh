@@ -48,7 +48,8 @@ then
   echo ""
 fi
 
-for BASE_REP_ID in 93 124 138 263
+#for BASE_REP_ID in 93 124 138 263
+for BASE_REP_ID in 124 138 263
 do
     ZERO_PADDED_MAIN_ID=$( ${REPO_ROOT_DIR}/global_shared_files/zero_pad.sh ${BASE_REP_ID} 3 )
     echo "Scraping snapshots for rep: ${ZERO_PADDED_MAIN_ID}"
