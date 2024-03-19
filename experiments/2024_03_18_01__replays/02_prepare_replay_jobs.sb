@@ -131,8 +131,10 @@ then
     chmod u+x ${LOCAL_BATCH_RUNNER}
 fi
 
+# Double crosses
 #for REP_ID in 93 124 138 263
-for REP_ID in 93
+# First few single crosses
+for REP_ID in 011 014 023 026 049
 do
     echo "Preparing rep: ${REP_ID}"
     # Create output sbatch file, and find/replace key info

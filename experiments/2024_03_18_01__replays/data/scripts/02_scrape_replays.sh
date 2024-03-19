@@ -2,8 +2,6 @@
 
 THIS_DIR=$(pwd)
 
-BASE_REP_ID=93
-
 IS_VERBOSE=0
 while getopts "v" OPT; do
   case $OPT in
@@ -48,26 +46,34 @@ then
   echo ""
 fi
 
-ZERO_PADDED_MAIN_ID=$( ${REPO_ROOT_DIR}/global_shared_files/zero_pad.sh ${BASE_REP_ID} 3 )
-echo "Scraping replays for rep: ${ZERO_PADDED_MAIN_ID}"
 
-# Create our output file
-REP_DIR=../reps/${ZERO_PADDED_MAIN_ID}
-mkdir -p ${REP_DIR}
-CROSS_INFO_FILE=${REP_DIR}/combined_replay_cross_data.csv
-printf "" > ${CROSS_INFO_FILE}
-
-REPLAY_DIR=${SCRATCH_EXP_DIR}/reps/${ZERO_PADDED_MAIN_ID}/replays
-head -n 1 ${REPLAY_DIR}/1/cross_info.csv > ${CROSS_INFO_FILE}
-
-# Actually scrape the data  
-for REPLAY_GEN in $(seq 1 4 768) 
+for BASE_REP_ID in 93 124 138 263
 do
-    echo "${REPLAY_GEN}"
-    REP_CROSS_INFO_FILE=${REPLAY_DIR}/${REPLAY_GEN}/cross_info.csv
-    CROSS_INFO_LINES=$( wc -l ${REP_CROSS_INFO_FILE} | grep -oP "^\d+"  )
-    if [ ${CROSS_INFO_LINES} -gt 1 ]
-    then
-        tail -n $(( ${CROSS_INFO_LINES} - 1 )) ${REP_CROSS_INFO_FILE} >> ${CROSS_INFO_FILE}
-    fi
+    ZERO_PADDED_MAIN_ID=$( ${REPO_ROOT_DIR}/global_shared_files/zero_pad.sh ${BASE_REP_ID} 3 )
+    echo "Scraping replays for rep: ${ZERO_PADDED_MAIN_ID}"
+
+    # Create our output file
+    REP_DIR=../reps/${ZERO_PADDED_MAIN_ID}
+    mkdir -p ${REP_DIR}
+    CROSS_INFO_FILE=${REP_DIR}/combined_replay_cross_data.csv
+    printf "" > ${CROSS_INFO_FILE}
+    CROSS_INFO_TAR=${REP_DIR}/combined_replay_cross_data.tar.gz
+
+    REPLAY_DIR=${SCRATCH_EXP_DIR}/reps/${ZERO_PADDED_MAIN_ID}/replays
+    head -n 1 ${REPLAY_DIR}/1/cross_info.csv > ${CROSS_INFO_FILE}
+
+    # Actually scrape the data  
+    for REPLAY_GEN in $(seq 1 4 768) 
+    do
+        printf "  ${REPLAY_GEN}"
+        REP_CROSS_INFO_FILE=${REPLAY_DIR}/${REPLAY_GEN}/cross_info.csv
+        CROSS_INFO_LINES=$( wc -l ${REP_CROSS_INFO_FILE} | grep -oP "^\d+"  )
+        if [ ${CROSS_INFO_LINES} -gt 1 ]
+        then
+            tail -n $(( ${CROSS_INFO_LINES} - 1 )) ${REP_CROSS_INFO_FILE} >> ${CROSS_INFO_FILE}
+        fi
+    done
+    tar -czf ${CROSS_INFO_TAR} ${CROSS_INFO_FILE}
+    printf "  done!\n"
 done
+printf "  done!\n"

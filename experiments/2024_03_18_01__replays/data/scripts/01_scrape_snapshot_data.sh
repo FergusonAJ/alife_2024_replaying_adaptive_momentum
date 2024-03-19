@@ -2,7 +2,6 @@
 
 THIS_DIR=$(pwd)
 
-BASE_REP_ID=93
 
 IS_VERBOSE=0
 while getopts "v" OPT; do
@@ -16,6 +15,7 @@ while getopts "v" OPT; do
       ;;
   esac
 done
+
 
 # Warn that we're in verbose mode
 if [ ! ${IS_VERBOSE} -eq 0 ]
@@ -48,14 +48,17 @@ then
   echo ""
 fi
 
-ZERO_PADDED_MAIN_ID=$( ${REPO_ROOT_DIR}/global_shared_files/zero_pad.sh ${BASE_REP_ID} 3 )
-echo "Scraping replays for rep: ${ZERO_PADDED_MAIN_ID}"
+for BASE_REP_ID in 93 124 138 263
+do
+    ZERO_PADDED_MAIN_ID=$( ${REPO_ROOT_DIR}/global_shared_files/zero_pad.sh ${BASE_REP_ID} 3 )
+    echo "Scraping snapshots for rep: ${ZERO_PADDED_MAIN_ID}"
 
-# Create our output file
-REP_DIR=../reps/${ZERO_PADDED_MAIN_ID}
-mkdir -p ${REP_DIR}
-    
-SNAPSHOT_DIR=${SCRATCH_EXP_DIR}/reps/${ZERO_PADDED_MAIN_ID}/pop_snapshots
-NUM_FILES=$( ls ${SNAPSHOT_DIR} | wc -l )
+    # Create our output file
+    REP_DIR=../reps/${ZERO_PADDED_MAIN_ID}
+    mkdir -p ${REP_DIR}
+        
+    SNAPSHOT_DIR=${SCRATCH_EXP_DIR}/reps/${ZERO_PADDED_MAIN_ID}/pop_snapshots
+    NUM_FILES=$( ls ${SNAPSHOT_DIR} | wc -l )
 
-python3 _extract_snapshot_info.py ${REP_DIR} ${SNAPSHOT_DIR} ${NUM_FILES}
+    python3 _extract_snapshot_info.py ${REP_DIR} ${SNAPSHOT_DIR} ${NUM_FILES}
+done
