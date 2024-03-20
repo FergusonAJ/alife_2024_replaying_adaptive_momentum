@@ -62,12 +62,12 @@ SCRATCH_JOB_DIR=${SCRATCH_EXP_DIR}/reps/${ZERO_PADDED_MAIN_ID}
 
 # Calculate the replicate's seed
 SEED_BASE=$( exp_name_to_seed ${EXP_NAME} )
-SEED=$(( ${SEED_BASE} + (${SLURM_ARRAY_TASK_ID} * 20000) ))
+SEED=$(( ${SEED_BASE} + (${SLURM_ARRAY_TASK_ID} * 10000) ))
 echo "Random seed: ${SEED}; Replicate ID: ${SLURM_ARRAY_TASK_ID};"
 echo "Seed to be replayed: ${MAIN_REP_ID}; Replay gen: ${REPLAY_GEN}"
 
 # Create replicate-specific directories
-SCRATCH_REPLAY_DIR=${SCRATCH_JOB_DIR}/replays/${REPLAY_GEN}
+SCRATCH_REPLAY_DIR=${SCRATCH_JOB_DIR}/shuffled_replays/${REPLAY_GEN}
 mkdir -p ${SCRATCH_REPLAY_DIR}
 cd ${SCRATCH_REPLAY_DIR}
 echo "SCRATCH_REPLAY_DIR: ${SCRATCH_REPLAY_DIR}"
@@ -82,10 +82,20 @@ for TRIAL_ID in $( seq 1 ${NUM_TRIALS} )
 do
     TRIAL_SEED=$(( ${SEED} + ( ${TRIAL_ID} * ${SEED_BASE} ) ))
     echo "Starting trial! #${TRIAL_ID}"
+
+    SHUFFLED_SNAPSHOT_FILE=shuffled.pop
+
+    # Shuffle the population snapshot
+    python3 ${SCRATCH_FILE_DIR}/shuffle_snapshot.py \
+        ${TRIAL_SEED} \
+        ${SCRATCH_JOB_DIR}/pop_snapshots/ud_${REPLAY_GEN}.pop \
+        ${SHUFFLED_SNAPSHOT_FILE}
+
     # Run!
     RESULT=$( time ${SCRATCH_FILE_DIR}/MABE \
-        -f ${SCRATCH_FILE_DIR}/shared_config.mabe ${SCRATCH_FILE_DIR}/replay_evolution.mabe \
+        -f ${SCRATCH_FILE_DIR}/shared_config.mabe ${SCRATCH_FILE_DIR}/shuffled_replay_evolution.mabe \
         -s random_seed=${TRIAL_SEED} \
+        -s pop_snapshot_dir=\".\" \
         -s replay_gen=${REPLAY_GEN} )
     CROSS_COUNTER=1
     for RELATIVE_UPDATE in $(echo "${RESULT}" | grep -e "Cross" | grep -oP "\d+$")
