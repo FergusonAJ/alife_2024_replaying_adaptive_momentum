@@ -40,10 +40,18 @@ ggplot(df_combined[df_combined$cross_counter == 2 & df_combined$relative_update 
   geom_histogram(binwidth = 32)
 ggsave(paste0(plot_dir, '/second_cross_zoom.png'), units = 'in', width = 8, height = 6)
 
-ggplot(df_combined, aes(x = relative_update, fill = as.factor(cross_counter))) + 
+df_combined$cross_counter_str = NA
+df_combined[df_combined$cross_counter == 1,]$cross_counter_str = 'First'
+df_combined[df_combined$cross_counter == 2,]$cross_counter_str = 'Second'
+ggplot(df_combined, aes(x = relative_update, fill = as.factor(cross_counter_str))) + 
   geom_histogram(data = df_combined[df_combined$cross_counter == 1,], binwidth = 512, alpha = 0.65) + 
   geom_histogram(data = df_combined[df_combined$cross_counter == 2,], binwidth = 512, alpha = 0.65) + 
   xlab('Relative update') + 
   ylab('Count') + 
-  labs(fill = 'Cross ID')
+  labs(fill = 'Valley\ncrossed') +
+  theme(axis.text = element_text(size = 14)) + 
+  theme(axis.title = element_text(size = 16)) + 
+  theme(legend.title = element_text(size = 14)) +
+  theme(legend.text = element_text(size = 14)) 
 ggsave(paste0(plot_dir, '/first_two_crosses_overlayed.png'), units = 'in', width = 8, height = 6)
+ggsave(paste0(plot_dir, '/first_two_crosses_overlayed.pdf'), units = 'in', width = 5, height = 3)
