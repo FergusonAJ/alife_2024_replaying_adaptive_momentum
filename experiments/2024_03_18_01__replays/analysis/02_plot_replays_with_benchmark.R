@@ -49,8 +49,14 @@ plot_dir = '../plots'
 #  plot_replay_with_benchmark(rep_id, processed_data_dir, plot_dir)
 #}
 
-# Plot our 10 randomly-selected no-cross reps
-for(rep_id in c('134',  '158', '164', '175', '252', '339', '365', '394', '446', '450')){
+## Plot our 10 randomly-selected no-cross reps
+#for(rep_id in c('134',  '158', '164', '175', '252', '339', '365', '394', '446', '450')){
+#  cat('Rep id: ', rep_id, '\n')
+#  plot_replay_with_benchmark(rep_id, processed_data_dir, plot_dir)
+#}
+
+# Plot our 10 randomly-selected single-cross reps
+for(rep_id in c('011','050','075','083','105','282','343','400','408','415')){
   cat('Rep id: ', rep_id, '\n')
   plot_replay_with_benchmark(rep_id, processed_data_dir, plot_dir)
 }

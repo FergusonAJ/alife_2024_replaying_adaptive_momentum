@@ -9,6 +9,11 @@ do
   cd ${DIR}
   echo "Decompressing file in ${DIR}"
   tar -xzf combined_replay_cross_data.tar.gz
+  if [ -s combined_shuffled_replay_cross_data.tar.gz ] 
+  then
+    echo "  Found shuffled replay data, decompressing..."
+    tar -xzf combined_shuffled_replay_cross_data.tar.gz
+  fi
   cd ${THIS_DIR}
 done
 
