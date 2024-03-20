@@ -44,3 +44,4 @@ data_dir = '../data'
 if(!dir.exists(data_dir)) dir.create(data_dir)
 
 write.csv(df_cross_summary, paste0(data_dir, '/disequilibrium_exp_summary_data.csv'), row.names = F)
+print(df_cross_summary)
