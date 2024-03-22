@@ -1,5 +1,5 @@
 #!/bin/bash --login
-#SBATCH --time=03:55:00
+#SBATCH --time=23:55:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
@@ -86,7 +86,7 @@ LEADING_EDGE_VAL=${LEADING_EDGE_VALS[${LEADING_EDGE_VAL_INDEX}]}
 echo "Leading edge index: ${LEADING_EDGE_INDEX}"
 echo "Leading edge value: ${LEADING_EDGE_VAL}"
 
-NUM_TRIALS=1000
+NUM_TRIALS=10000
 for TRIAL_IDX in $( seq 1 ${NUM_TRIALS})
 do
     echo "Starting trial #${TRIAL_IDX}"
