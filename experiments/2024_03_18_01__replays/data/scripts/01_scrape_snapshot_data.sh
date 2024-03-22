@@ -55,7 +55,9 @@ fi
 # Scrape our randomly-sampled no-cross replicates
 #for BASE_REP_ID in 134 158 164 175 252 339 365 394 446 450 
 # Scrape our randomly-sampled single-cross replicates
-for BASE_REP_ID in 11 50 75 83 105 282 343 400 408 415 
+#for BASE_REP_ID in 11 50 75 83 105 282 343 400 408 415 
+# Scrape our three selected replicates
+for BASE_REP_ID in 263 339 400
 do
     ZERO_PADDED_MAIN_ID=$( ${REPO_ROOT_DIR}/global_shared_files/zero_pad.sh ${BASE_REP_ID} 3 )
     echo "Scraping snapshots for rep: ${ZERO_PADDED_MAIN_ID}"

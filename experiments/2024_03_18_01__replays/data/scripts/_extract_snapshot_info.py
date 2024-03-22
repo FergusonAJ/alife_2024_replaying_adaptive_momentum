@@ -30,6 +30,7 @@ with open(out_dir + '/snapshot_data.csv', 'w') as out_fp:
         header += ',count_' + str(i)
     header += ',count_over'
     out_fp.write(header + '\n')
+    prev_second_leading_edge_right_index = None
     for update in range(1, max_update + 1):
         #print('Update:', update)
         full_data += str(update)
@@ -64,13 +65,14 @@ with open(out_dir + '/snapshot_data.csv', 'w') as out_fp:
                 if val >= target_peak and second_leading_edge_left_index is None:
                     second_leading_edge_left_index = idx
                     second_leading_edge_left_val = val
-                if val >= target_peak - 1 and second_leading_edge_left_index is not None:
+                if val >= target_peak - 1 and second_leading_edge_left_index is not None and (prev_second_leading_edge_right_index is None or prev_second_leading_edge_right_index >= idx - 1) :
                     second_leading_edge_right_index = idx
                     second_leading_edge_right_val = val
 
                 pop[idx] = val
                 full_data += ',' + str(val)
                 idx += 1
+            prev_second_leading_edge_right_index = second_leading_edge_right_index
             full_data += '\n'
             data = str(update) + \
                     ',' + str(leading_edge_index) + \
