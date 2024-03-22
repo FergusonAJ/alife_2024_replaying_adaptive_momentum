@@ -48,8 +48,8 @@ fi
 
 
 # Our randomly-sampled single-cross replicates + our one double cross rep (5501)
-#for BASE_REP_ID in 833 1357 2290 2359 3149 5295 7051 7605 7916 9839 5501
-for BASE_REP_ID in 833 
+for BASE_REP_ID in 833 1357 2290 2359 3149 5295 7051 7605 7916 9839 5501
+#for BASE_REP_ID in 833 
 do
     ZERO_PADDED_MAIN_ID=$( ${REPO_ROOT_DIR}/global_shared_files/zero_pad.sh ${BASE_REP_ID} 5 )
     echo "Scraping replays for rep: ${ZERO_PADDED_MAIN_ID}"
