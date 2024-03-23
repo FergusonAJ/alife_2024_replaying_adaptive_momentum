@@ -54,7 +54,7 @@ SCRATCH_EXP_DIR=(<SCRATCH_EXP_DIR>)
 SCRATCH_FILE_DIR=(<SCRATCH_FILE_DIR>)
 
 # Use these variables to create a few helper variables
-ZERO_PADDED_MAIN_ID=$( ${SCRATCH_FILE_DIR}/zero_pad.sh ${MAIN_REP_ID} 3 )
+ZERO_PADDED_MAIN_ID=$( ${SCRATCH_FILE_DIR}/zero_pad.sh ${MAIN_REP_ID} 5 )
 SCRATCH_JOB_DIR=${SCRATCH_EXP_DIR}/reps/${ZERO_PADDED_MAIN_ID}
 # Load global helper functions
 . ${SCRATCH_FILE_DIR}/helper_functions.sh

@@ -131,11 +131,8 @@ then
     chmod u+x ${LOCAL_BATCH_RUNNER}
 fi
 
-# One selected replicate for each condition (no cross, single cross, double cross)
-# Replicate 400 - Single cross
-# Replicate 263 - Double cross
-# Replicate 339 - No cross
-for REP_ID in 400 263 339
+# One selected replicate
+for REP_ID in 2359
 do
     echo "Preparing rep: ${REP_ID}"
     # Create output sbatch file, and find/replace key info

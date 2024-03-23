@@ -47,13 +47,10 @@ then
 fi
 
 
-# Scrape our selected replicates
-# No cross - 339
-# One cross - 400
-# Two crosses - 263
-for BASE_REP_ID in 400 263 339
+# One selected replicate
+for BASE_REP_ID in 2359
 do
-    ZERO_PADDED_MAIN_ID=$( ${REPO_ROOT_DIR}/global_shared_files/zero_pad.sh ${BASE_REP_ID} 3 )
+    ZERO_PADDED_MAIN_ID=$( ${REPO_ROOT_DIR}/global_shared_files/zero_pad.sh ${BASE_REP_ID} 5 )
     echo "Scraping replays for rep: ${ZERO_PADDED_MAIN_ID}"
 
     # Create our output file
