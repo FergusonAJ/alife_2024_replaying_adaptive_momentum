@@ -9,6 +9,15 @@ df_combined = read.csv('./data/combined_evolution_cross_data.csv')
 df_summary = df_combined %>%
   dplyr::group_by(slurm_task_id) %>%
   dplyr::summarize(max_cross = max(cross_counter))
+  
+  no_cross_reps = setdiff(1:10000, df_summary$slurm_task_id)
+  if(length(no_cross_reps) > 10){
+        cat('Here are 10 random replicates that did not cross:\n')
+    cat('  ', sort(sample(no_cross_reps, 10, replace = F)), '\n')
+  } else {
+        cat('There are 10 or fewer replicates that did not cross, here are all of them:\n')
+    cat('  ', no_cross_reps, '\n')
+  }
 
   single_cross_reps = df_summary[df_summary$max_cross == 1,]$slurm_task_id
   if(length(single_cross_reps) > 10){

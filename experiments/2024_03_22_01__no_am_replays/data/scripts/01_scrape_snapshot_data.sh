@@ -49,7 +49,9 @@ then
 fi
 
 # Our randomly-sampled single-cross replicates + our one double cross rep (5501)
-for BASE_REP_ID in 833 1357 2290 2359 3149 5295 7051 7605 7916 9839 5501
+#for BASE_REP_ID in 833 1357 2290 2359 3149 5295 7051 7605 7916 9839 5501
+# Our randomly-sampled no-cross replicates
+for BASE_REP_ID in 1164 1435 1572 2581 2711 2961 4390 6116 6583 8366
 do
     ZERO_PADDED_MAIN_ID=$( ${REPO_ROOT_DIR}/global_shared_files/zero_pad.sh ${BASE_REP_ID} 5 )
     echo "Scraping snapshots for rep: ${ZERO_PADDED_MAIN_ID}"
