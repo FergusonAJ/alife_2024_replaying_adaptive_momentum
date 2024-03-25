@@ -131,8 +131,10 @@ then
     chmod u+x ${LOCAL_BATCH_RUNNER}
 fi
 
-# One selected replicate
-for REP_ID in 2359
+# One selected single-cross replicate
+#for REP_ID in 2359
+# The only double-cross replicate
+for REP_ID in 5501
 do
     echo "Preparing rep: ${REP_ID}"
     # Create output sbatch file, and find/replace key info

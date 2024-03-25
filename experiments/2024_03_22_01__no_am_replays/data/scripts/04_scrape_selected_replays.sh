@@ -48,7 +48,7 @@ fi
 
 
 # One selected replicate
-for BASE_REP_ID in 2359
+for BASE_REP_ID in 2359 5501
 do
     ZERO_PADDED_MAIN_ID=$( ${REPO_ROOT_DIR}/global_shared_files/zero_pad.sh ${BASE_REP_ID} 5 )
     echo "Scraping replays for rep: ${ZERO_PADDED_MAIN_ID}"
