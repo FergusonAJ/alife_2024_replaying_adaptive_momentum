@@ -14,6 +14,11 @@ do
     echo "  Found shuffled replay data, decompressing..."
     tar -xzf combined_shuffled_replay_cross_data.tar.gz
   fi
+  if [ -s combined_selected_replay_cross_data.tar.gz ] 
+  then
+    echo "  Found selected replay data, decompressing..."
+    tar -xzf combined_selected_replay_cross_data.tar.gz
+  fi
   cd ${THIS_DIR}
 done
 
