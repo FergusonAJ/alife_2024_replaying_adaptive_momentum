@@ -44,3 +44,4 @@ ggplot(df_summary, aes(x = leading_edge_index, y = crossed_frac, color = paper_l
   ))
 ggsave(paste0(plot_dir, '/benchmarking.png'), units = 'in', width = 8, height = 6)
 ggsave(paste0(plot_dir, '/benchmarking.pdf'), units = 'in', width = 5, height = 5)
+
