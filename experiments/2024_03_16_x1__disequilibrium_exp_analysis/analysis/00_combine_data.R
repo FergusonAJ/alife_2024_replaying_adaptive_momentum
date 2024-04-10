@@ -40,8 +40,21 @@ df_cross_summary$second_cross_upper_ci_95 = Hmisc::binconf(df_cross_summary$seco
 df_cross_summary$second_cross_lower_ci_99 = Hmisc::binconf(df_cross_summary$second_cross_count, total_trials, alpha = 0.01, method = 'exact')[,2]
 df_cross_summary$second_cross_upper_ci_99 = Hmisc::binconf(df_cross_summary$second_cross_count, total_trials, alpha = 0.01, method = 'exact')[,3]
 
+
+contingency_table = matrix(
+  c(exp_first_crosses, control_first_crosses, total_trials - exp_first_crosses, total_trials - control_first_crosses), 
+  nrow = 2
+)
+cat('Contingency table: ')
+print(contingency_table)
+cat('Fisher\'s exact:\n')
+print(fisher.test(contingency_table))
+
 data_dir = '../data'
 if(!dir.exists(data_dir)) dir.create(data_dir)
 
-write.csv(df_cross_summary, paste0(data_dir, '/disequilibrium_exp_summary_data.csv'), row.names = F)
+output_file = paste0(data_dir, '/disequilibrium_exp_summary_data.csv')
+write.csv(df_cross_summary, output_file, row.names = F)
 print(df_cross_summary)
+cat('Table saved to file: ', output_file, '\n')
+
