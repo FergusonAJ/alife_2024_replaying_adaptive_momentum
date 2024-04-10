@@ -1,0 +1,290 @@
+# Replaying equilibrium populations
+
+The paper shows fine-grained replays for one replicate that was NOT experiencing adaptive momentum at the start.
+The replicate shown in the paper crossed two valleys, and was the only one to do so. 
+We also replayed 10 randomlyselected replicates that crossed one valley and 10 randomly selected replicates that failed to cross any valleys. 
+We show those here. 
+
+The functions to generate the plots are not shown here. 
+They can be viewed in `/experiments/2024_03_22_01__no_am_replays/analysis
+
+For each plot, the top subplot shows the potential to cross the first valley (red line) and the second valley (orange line).
+The background of the top subplot shows the expectation based on the position of the leading edge, as in the paper.
+The bottom subplot shows the state of the population at each generation of the original replicate. 
+
+## Dependencies
+
+```{r, message=FALSE}
+# External
+library(ggplot2)
+library(dplyr)
+library(cowplot)
+
+base_repo_dir = '../..'
+exp_dir = paste0(base_repo_dir, '/experiments/2024_03_22_01__no_am_replays/')
+
+# Internal
+source(paste0(base_repo_dir, '/global_shared_files/global_analysis_variables.R'))
+```
+
+```{r, message=FALSE, include=FALSE}
+adjust_benchmarking = function(df_benchmarking, df_snapshot){
+  df_adjusted_benchmarking = data.frame(data = matrix(nrow = 0, ncol = 4))
+  colnames(df_adjusted_benchmarking) = c('update', 'leading_edge_val', 'leading_edge_index', 'frac_crossed')
+  for(leading_edge_val in unique(df_benchmarking$leading_edge_val)){
+    prev_leading_edge_index = -1
+    for(update in sort(unique(df_snapshot$update))){
+      leading_edge_index = df_snapshot[df_snapshot$update == update,]$leading_edge_index
+      if(leading_edge_index != prev_leading_edge_index){
+        frac_crossed = df_benchmarking[
+          df_benchmarking$leading_edge_index <= leading_edge_index & 
+            df_benchmarking$leading_edge_index > leading_edge_index - 8 & 
+            df_benchmarking$leading_edge_val == leading_edge_val,]$crossed_frac
+        df_adjusted_benchmarking[nrow(df_adjusted_benchmarking) + 1,] = c(
+          update, 
+          leading_edge_val, 
+          leading_edge_index,
+          frac_crossed
+        )
+        prev_leading_edge_index = leading_edge_index
+      }
+    }
+  }
+  return(df_adjusted_benchmarking) 
+}
+
+adjust_benchmarking_for_second_cross = function(df_benchmarking, df_snapshot){
+  df_adjusted_benchmarking = data.frame(data = matrix(nrow = 0, ncol = 9))
+  colnames(df_adjusted_benchmarking) = c('update', 
+                                         'left_leading_edge_val', 'left_leading_edge_index', 'left_frac_crossed', 'true_left_val',
+                                         'right_leading_edge_val', 'right_leading_edge_index', 'right_frac_crossed', 'true_right_val')
+  for(update in sort(unique(df_snapshot$update))){
+    snapshot_row = df_snapshot[df_snapshot$update == update,]
+    if(snapshot_row$second_leading_edge_left_index == 'None' | update >= 768){
+      df_adjusted_benchmarking[nrow(df_adjusted_benchmarking) + 1,] = c( update, NA, NA, NA, NA, NA, NA, NA, NA)
+      next
+    }
+    updates_remaining = 768 - update
+    # Calculate cross probability on the left edge (remember it's moving left)
+    left_index = as.numeric(snapshot_row$second_leading_edge_left_index)
+    # Invert the direction
+    left_index = 512 - left_index
+    left_index = max(left_index, (512 - updates_remaining * 0.66))
+    closest_left_index = left_index - (left_index %% 8)
+    true_left_val = as.numeric(snapshot_row$second_leading_edge_left_val)
+    left_frac_crossed = 0
+    # Calculate cross probability on the right edge
+    right_index = as.numeric(snapshot_row$second_leading_edge_right_index)
+    right_index = max(right_index, 512 - updates_remaining)
+    closest_right_index = right_index - (right_index %% 8)
+    true_right_val = as.numeric(snapshot_row$second_leading_edge_right_val)
+    for(val in 12:17){
+      left_frac_crossed = df_benchmarking[df_benchmarking$leading_edge_index == closest_left_index & df_benchmarking$leading_edge_val == val,]$crossed_frac
+      right_frac_crossed = df_benchmarking[df_benchmarking$leading_edge_index == closest_right_index & df_benchmarking$leading_edge_val == val,]$crossed_frac
+      df_adjusted_benchmarking[nrow(df_adjusted_benchmarking) + 1,] = c(
+        update, 
+        val, left_index, left_frac_crossed, true_left_val,
+        val, right_index, right_frac_crossed, true_right_val
+      )
+    }
+  }
+  #df_adjusted_benchmarking$full_estimate = 1 - ((1 - df_adjusted_benchmarking$left_frac_crossed) * (1 - df_adjusted_benchmarking$right_frac_crossed))
+  return(df_adjusted_benchmarking) 
+
+}
+
+pivot_snapshot_data_longer = function(df_snapshot){
+  df_snapshot_longer = tidyr::pivot_longer(df_snapshot, paste0('count_', c(6:18, 'under', 'over')), names_to = 'category')
+  df_snapshot_longer$category_factor = factor(df_snapshot_longer$category, levels = paste0('count_', c('under', 6:18, 'over')))
+  return(df_snapshot_longer)
+}
+
+load_and_reformat_full_snapshot_data = function(rep_id){
+  df_full_snapshot_data = read.csv(paste0(exp_dir, '/data/reps/', rep_id, '/full_snapshot_data.csv'))
+  df_full_snapshot_longer = tidyr::pivot_longer(df_full_snapshot_data, paste0('idx_', 0:511), 'index', names_prefix = 'idx_')
+  df_full_snapshot_longer$index = as.numeric(df_full_snapshot_longer$index)
+  df_full_snapshot_longer$value_str = as.character(df_full_snapshot_longer$value)
+  df_full_snapshot_longer[df_full_snapshot_longer$value < 6,]$value_str = 'under'
+  df_full_snapshot_longer[df_full_snapshot_longer$value > 24,]$value_str = 'over'
+  df_full_snapshot_longer$value_factor = factor(df_full_snapshot_longer$value_str, levels = paste0(c('under', 6:24, 'over')))
+  df_full_snapshot_longer$value_remap = df_full_snapshot_longer$value - 6
+  df_full_snapshot_longer$value_remap_str = as.character(df_full_snapshot_longer$value_remap)
+  df_full_snapshot_longer[df_full_snapshot_longer$value_remap < 6,]$value_remap_str = 'under'
+  df_full_snapshot_longer[df_full_snapshot_longer$value_remap > 24,]$value_remap_str = 'over'
+  df_full_snapshot_longer$value_remap_factor = factor(df_full_snapshot_longer$value_remap_str, levels = paste0(c('under', 6:24, 'over')))
+  return(df_full_snapshot_longer)
+}
+
+plot_replay_with_adjusted_benchmark = function(rep_id){
+
+  processed_data_dir = paste0(exp_dir, '/data/processed')
+  # Load processed data
+  df_rep_summary = read.csv(paste0(processed_data_dir, '/processed_summary_rep_', rep_id, '.csv'))  
+  df_second_cross_summary = read.csv(paste0(processed_data_dir, '/processed_second_cross_summary_rep_', rep_id, '.csv'))  
+  # Load and prep benchmarking data (as in script 01)
+  df_benchmarking = read.csv(paste0(base_repo_dir, '/experiments/2024_03_14_01__benchmarking_10k/data/processed_summary.csv'))
+  
+  # Load snapshot data and also create a longer form "tidy" version
+  df_snapshot = read.csv(paste0(exp_dir, '/data/reps/', rep_id, '/snapshot_data.csv'))
+  df_snapshot_longer = pivot_snapshot_data_longer(df_snapshot)
+  
+  # Leverage snapshot data to adjust benchmarking data
+  df_adjusted_benchmarking = adjust_benchmarking(df_benchmarking, df_snapshot) 
+  # Pivot the benchmarking data to be wider so we can plot it as an area 
+  df_benchmarking_wide = tidyr::pivot_wider(df_adjusted_benchmarking, names_prefix = 'frac_crossed_', names_from = c(leading_edge_val), values_from = c(frac_crossed))
+  
+  # Create a combined potentiation + muller plot
+  df_full_snapshot = load_and_reformat_full_snapshot_data(rep_id)
+  first_cross_ud = min(df_full_snapshot[df_full_snapshot$value >= 12,]$update)
+  
+  line_size = 0.75
+  ggp_base_area = ggplot(df_benchmarking_wide, aes(x = update)) +
+    geom_vline(aes(xintercept=first_cross_ud), linetype = 'dashed', alpha = 0.5) + 
+    geom_line(data = df_adjusted_benchmarking, aes(x = update, y = frac_crossed * 100, color = as.factor(leading_edge_val))) + 
+    geom_line(data = df_rep_summary, aes(x = replay_gen, y = frac_crossed * 100), color = color_map_value['12'], size = line_size) + 
+    geom_line(data = df_second_cross_summary, aes(x = replay_gen, y = frac_crossed * 100), color = color_map_value['18'], size = line_size) + 
+    scale_y_continuous(limits = c(0,100), expand = c(0,0)) + 
+    scale_x_continuous(limits = c(0, 768), expand = c(0,0)) + 
+    scale_fill_manual(values = color_map_value) +
+    scale_color_manual(values = color_map_value) + 
+    xlab('Time (generations)') + 
+    ylab('Potential to cross') +
+    theme(axis.title = element_text(size = 16)) + 
+    theme(axis.text = element_text(size = 14)) + 
+    theme(legend.position = 'none') 
+    #theme(panel.background = element_rect(fill = '#bbbbbb')) +
+    #theme(panel.grid.major = element_line(color = '#aaaaaa')) +
+    #theme(panel.grid.minor = element_line(color = '#aaaaaa'))
+  
+  ggp_muller = ggplot(df_full_snapshot, aes(x = update, y = index, fill = value_remap_factor)) + 
+    geom_raster() + 
+    geom_vline(aes(xintercept=first_cross_ud), linetype = 'dashed', alpha = 0.5) + 
+    xlab('Time (generations)') + 
+    ylab('Index in population') + 
+    labs(fill = 'Value') + 
+    scale_fill_manual(values = color_map_value) + 
+    scale_x_continuous(limits = c(0, 768), expand = c(0,0)) + 
+    scale_y_continuous(expand = c(0,0)) + 
+    theme(axis.title = element_text(size = 16)) + 
+    theme(axis.text = element_text(size = 14)) + 
+    theme(legend.position = 'none')
+
+  combined_plot = cowplot::plot_grid(ggp_base_area, ggp_muller, nrow = 2, ncol = 1)
+  show(combined_plot)
+}
+
+```
+
+## Populations that did not cross
+ 
+### Seed 01164
+```{r, message=FALSE, warning=FALSE}
+plot_replay_with_adjusted_benchmark('01164')
+```
+
+### Seed 01435
+```{r, message=FALSE, warning=FALSE}
+plot_replay_with_adjusted_benchmark('01435')
+```
+
+### Seed 01572
+```{r, message=FALSE, warning=FALSE}
+plot_replay_with_adjusted_benchmark('01572')
+```
+
+### Seed 02581
+```{r, message=FALSE, warning=FALSE}
+plot_replay_with_adjusted_benchmark('02581')
+```
+
+### Seed 02711
+```{r, message=FALSE, warning=FALSE}
+plot_replay_with_adjusted_benchmark('02711')
+```
+
+### Seed 02961
+```{r, message=FALSE, warning=FALSE}
+plot_replay_with_adjusted_benchmark('02961')
+```
+
+### Seed 04390
+```{r, message=FALSE, warning=FALSE}
+plot_replay_with_adjusted_benchmark('04390')
+```
+
+### Seed 06116
+```{r, message=FALSE, warning=FALSE}
+plot_replay_with_adjusted_benchmark('06116')
+```
+
+### Seed 06583
+```{r, message=FALSE, warning=FALSE}
+plot_replay_with_adjusted_benchmark('06583')
+```
+
+### Seed 08366
+```{r, message=FALSE, warning=FALSE}
+plot_replay_with_adjusted_benchmark('08366')
+```
+
+## Populations that crossed once
+
+### Seed 00833
+```{r, message=FALSE, warning=FALSE}
+plot_replay_with_adjusted_benchmark('00833')
+```
+
+### Seed 01357
+```{r, message=FALSE, warning=FALSE}
+plot_replay_with_adjusted_benchmark('01357')
+```
+
+### Seed 02290
+```{r, message=FALSE, warning=FALSE}
+plot_replay_with_adjusted_benchmark('02290')
+```
+
+### Seed 02359
+```{r, message=FALSE, warning=FALSE}
+plot_replay_with_adjusted_benchmark('02359')
+```
+
+### Seed 03149
+```{r, message=FALSE, warning=FALSE}
+plot_replay_with_adjusted_benchmark('03149')
+```
+
+### Seed 05295
+```{r, message=FALSE, warning=FALSE}
+plot_replay_with_adjusted_benchmark('05295')
+```
+
+### Seed 07051
+```{r, message=FALSE, warning=FALSE}
+plot_replay_with_adjusted_benchmark('07051')
+```
+
+### Seed 07605
+```{r, message=FALSE, warning=FALSE}
+plot_replay_with_adjusted_benchmark('07605')
+```
+
+### Seed 07916
+```{r, message=FALSE, warning=FALSE}
+plot_replay_with_adjusted_benchmark('07916')
+```
+
+### Seed 09839
+```{r, message=FALSE, warning=FALSE}
+plot_replay_with_adjusted_benchmark('09839')
+```
+
+
+## Populations that crossed twice
+
+Note that this is the seed in Figure 7 of the paper.
+
+### Seed 05501
+```{r, message=FALSE, warning=FALSE}
+plot_replay_with_adjusted_benchmark('05501')
+```

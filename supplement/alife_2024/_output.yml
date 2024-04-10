@@ -1,0 +1,12 @@
+bookdown::gitbook:
+  css: style.css
+  split_by: "chapter"
+  citation_package: natbib
+  config:
+    toc:
+      before: |
+        <li><a href="./">Predicting the Unpredictable: Using replay experiments to disentangle how evolutionary outcomes are altered by adaptive momentum</a></li>
+      after: |
+        <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with ❤ and bookdown</a></li>
+    edit: https://github.com/AnonymousALifer/alife_2024_replaying_adaptive_momentum/tree/main/supplement/alife_2024%s
+    download: ["pdf"]

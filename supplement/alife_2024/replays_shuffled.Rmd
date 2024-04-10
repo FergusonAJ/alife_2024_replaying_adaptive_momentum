@@ -1,0 +1,147 @@
+# Replaying shuffled populations
+
+The paper shows one replay replicate that was shuffled prior to evolution. 
+We actually ran 10 shuffled replays, and all of those files are included here. 
+
+To clarify, for each replayed generation we took the population snapshot at that generation like normal. 
+But for each replicate, we shuffled the organisms in the population prior to starting evolution. 
+This destroyed any existing population structure, though new population structure could evolve again after. 
+
+The functions to generate the plots are not shown here. 
+They can be viewed in `/experiments/2024_03_18_01__replays/analysis`
+
+For each plot, the top subplot shows the potential to cross with the normal replays (orange line) and the shuffled replays (black line). 
+The bottom subplot shows the state of the population at each generation of the original replicate. 
+
+## Dependencies
+
+```{r, message=FALSE}
+# External
+library(ggplot2)
+library(dplyr)
+library(cowplot)
+
+base_repo_dir = '../..'
+exp_dir = paste0(base_repo_dir, '/experiments/2024_03_18_01__replays/')
+
+# Internal
+source(paste0(base_repo_dir, '/global_shared_files/global_analysis_variables.R'))
+```
+
+```{r, message=FALSE, include=FALSE}
+load_and_reformat_full_snapshot_data = function(rep_id){
+  df_full_snapshot_data = read.csv(paste0(exp_dir, '/data/reps/', rep_id, '/full_snapshot_data.csv'))
+  df_full_snapshot_longer = tidyr::pivot_longer(df_full_snapshot_data, paste0('idx_', 0:511), 'index', names_prefix = 'idx_')
+  df_full_snapshot_longer$index = as.numeric(df_full_snapshot_longer$index)
+  df_full_snapshot_longer$value_str = as.character(df_full_snapshot_longer$value)
+  df_full_snapshot_longer[df_full_snapshot_longer$value < 6,]$value_str = 'under'
+  df_full_snapshot_longer[df_full_snapshot_longer$value > 24,]$value_str = 'over'
+  df_full_snapshot_longer$value_factor = factor(df_full_snapshot_longer$value_str, levels = paste0(c('under', 6:24, 'over')))
+  return(df_full_snapshot_longer)
+}
+
+plot_shuffled_replay = function(rep_id){
+
+  processed_data_dir = paste0(exp_dir, '/data/processed')
+  # Load processed data
+  df_rep_summary = read.csv(paste0(processed_data_dir, '/processed_summary_rep_', rep_id, '.csv'))  
+ 
+  # Load processed shuffle replay data
+  df_shuffled_summary = read.csv(paste0(processed_data_dir, '/processed_shuffled_summary_rep_', rep_id, '.csv'))
+  df_shuffled_summary = df_shuffled_summary[,setdiff(colnames(df_shuffled_summary), 'slurm_task_id')]
+  
+  # Combined shuffled and standard replay data
+  combined_summary = dplyr::full_join(df_rep_summary, df_shuffled_summary, by=c('replay_gen'), suffix=c('_base', '_shuffled'))
+  combined_summary[is.na(combined_summary$count_shuffled),]$count_shuffled = 0
+  combined_summary[is.na(combined_summary$frac_crossed_shuffled),]$frac_crossed_shuffled = 0
+  
+  # Create a combined potentiation + muller plot
+  df_full_snapshot = load_and_reformat_full_snapshot_data(rep_id)
+  first_cross_ud = min(df_full_snapshot[df_full_snapshot$value >= 18,]$update)
+  
+  line_size = 0.75
+  ggp_base = ggplot(combined_summary, aes(x = replay_gen)) +
+    geom_vline(aes(xintercept=first_cross_ud), linetype = 'dashed', alpha = 0.5) + 
+    geom_line(aes(x = replay_gen, y = frac_crossed_base * 100), color = color_map_value['18'], size = line_size) + 
+    geom_line(aes(x = replay_gen, y = frac_crossed_shuffled * 100), color = '#000000', size = line_size) + 
+    scale_y_continuous(limits = c(0,100), expand = c(0,0)) + 
+    scale_x_continuous(limits = c(0, 768), expand = c(0,0)) + 
+    xlab('Time (generations)') + 
+    ylab('Potential to cross') +
+    theme(axis.title = element_text(size = 16)) + 
+    theme(axis.text = element_text(size = 14)) + 
+    theme(legend.position = 'none') 
+  
+  ggp_muller = ggplot(df_full_snapshot, aes(x = update, y = index, fill = value_factor)) + 
+    geom_raster() + 
+    geom_vline(aes(xintercept=first_cross_ud), linetype = 'dashed', alpha = 0.5) + 
+    xlab('Time (generations)') + 
+    ylab('Index in population') + 
+    labs(fill = 'Value') + 
+    scale_fill_manual(values = color_map_value) + 
+    scale_x_continuous(limits = c(0, 768), expand = c(0,0)) + 
+    scale_y_continuous(expand = c(0,0)) + 
+    theme(axis.title = element_text(size = 16)) + 
+    theme(axis.text = element_text(size = 14)) + 
+    theme(legend.position = 'none')
+
+  combined_plot = cowplot::plot_grid(ggp_base, ggp_muller, nrow = 2, ncol = 1)
+  show(combined_plot)
+}
+
+```
+
+## Populations that crossed once
+
+### Seed 011
+```{r, message=FALSE, warning=FALSE}
+plot_shuffled_replay('011')
+```
+
+### Seed 050
+```{r, message=FALSE, warning=FALSE}
+plot_shuffled_replay('050')
+```
+
+### Seed 075
+```{r, message=FALSE, warning=FALSE}
+plot_shuffled_replay('075')
+```
+
+### Seed 083
+```{r, message=FALSE, warning=FALSE}
+plot_shuffled_replay('083')
+```
+
+### Seed 105
+```{r, message=FALSE, warning=FALSE}
+plot_shuffled_replay('105')
+```
+
+### Seed 282
+```{r, message=FALSE, warning=FALSE}
+plot_shuffled_replay('282')
+```
+
+### Seed 343
+```{r, message=FALSE, warning=FALSE}
+plot_shuffled_replay('343')
+```
+
+### Seed 400
+
+Note that this is the seed in Figure 8 of the paper.
+
+```{r, message=FALSE, warning=FALSE}
+plot_shuffled_replay('400')
+```
+
+### Seed 408
+```{r, message=FALSE, warning=FALSE}
+plot_shuffled_replay('408')
+```
+
+### Seed 415
+```{r, message=FALSE, warning=FALSE}
+plot_shuffled_replay('415')
+```

@@ -1,0 +1,11 @@
+book_filename: "alife_2024_supplement"
+language:
+  ui:
+    chapter_name: "Section "
+delete_merged_file: true
+rmd_files: [
+  "index.Rmd",
+  "replays_am.Rmd",
+  "replays_no_am.Rmd",
+  "replays_shuffled.Rmd",
+]
