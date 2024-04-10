@@ -23,8 +23,13 @@ elif [ ${CROSS_SELECTOR} -eq 2 ]
 then
   echo "Looking at replicates that cross twice"
   REP_LIST="093 124 138 263"
+elif [ ${CROSS_SELECTOR} -eq -1 ]
+then
+  echo "Looking at our three selected replicates for the paper"
+  REP_LIST="339 400 263"
 else
   echo "Only values of 0, 1, and 2 supported for the cross selector"
+  echo "Or -1 for the selected replicates for the paper"
   exit 2
 fi
 
