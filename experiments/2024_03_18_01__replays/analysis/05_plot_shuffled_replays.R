@@ -36,6 +36,7 @@ plot_shuffled_replay_data = function(rep_id, num_total_reps, processed_data_dir,
   
   # Summarize shuffled replay data
   df_shuffled_summary = summarize_replay_data(df_shuffled, num_total_reps)
+  write.csv(df_shuffled_summary, paste0(processed_data_dir, '/processed_shuffled_summary_rep_', rep_id, '.csv'), row.names = F)
   
   # Plot the standard one valley potentiation
   ggplot(df_base_summary, aes(x = replay_gen, y = frac_crossed, color = 'Base')) + 
@@ -48,6 +49,16 @@ plot_shuffled_replay_data = function(rep_id, num_total_reps, processed_data_dir,
     ylab('Potential to cross') + 
     labs(color = 'Treatment')
   ggsave(paste0(rep_plot_dir, '/script_', script_id, '__plot_00__shuffled_potentiation.png'), units = 'in', width = 8, height = 6)
+  
+  combined_summary = dplyr::full_join(df_base_summary, df_shuffled_summary, by=c('slurm_task_id', 'replay_gen'), suffix=c('_base', '_shuffled'))
+  combined_summary[is.na(combined_summary$frac_crossed_shuffled),]$frac_crossed_shuffled = 0
+  ggplot(combined_summary, aes(x = frac_crossed_base, y = frac_crossed_shuffled)) + 
+    geom_point(alpha = 0.2) + 
+    xlab('Fraction of replicates that cross - Basic replays') +
+    ylab('Fraction of replicates that cross - Shuffled replays') + 
+    scale_x_continuous(limits = c(0,1)) + 
+    scale_y_continuous(limits = c(0,1))
+  ggsave(paste0(rep_plot_dir, '/script_', script_id, '__plot_01__shuffled_x_base_potentiation.png'), units = 'in', width = 8, height = 6)
 }
 
 

@@ -31,12 +31,14 @@ adjust_benchmarking = function(df_benchmarking, df_snapshot){
 }
 
 adjust_benchmarking_for_second_cross = function(df_benchmarking, df_snapshot){
-  df_adjusted_benchmarking = data.frame(data = matrix(nrow = 0, ncol = 7))
-  colnames(df_adjusted_benchmarking) = c('update', 'left_leading_edge_val', 'left_leading_edge_index', 'left_frac_crossed', 'right_leading_edge_val', 'right_leading_edge_index', 'right_frac_crossed')
+  df_adjusted_benchmarking = data.frame(data = matrix(nrow = 0, ncol = 9))
+  colnames(df_adjusted_benchmarking) = c('update', 
+                                         'left_leading_edge_val', 'left_leading_edge_index', 'left_frac_crossed', 'true_left_val',
+                                         'right_leading_edge_val', 'right_leading_edge_index', 'right_frac_crossed', 'true_right_val')
   for(update in sort(unique(df_snapshot$update))){
     snapshot_row = df_snapshot[df_snapshot$update == update,]
-    if(snapshot_row$second_leading_edge_left_index == 'None'){
-      df_adjusted_benchmarking[nrow(df_adjusted_benchmarking) + 1,] = c( update, NA, NA, NA, NA, NA, NA)
+    if(snapshot_row$second_leading_edge_left_index == 'None' | update >= 768){
+      df_adjusted_benchmarking[nrow(df_adjusted_benchmarking) + 1,] = c( update, NA, NA, NA, NA, NA, NA, NA, NA)
       next
     }
     updates_remaining = 768 - update
@@ -46,34 +48,24 @@ adjust_benchmarking_for_second_cross = function(df_benchmarking, df_snapshot){
     left_index = 512 - left_index
     left_index = max(left_index, (512 - updates_remaining * 0.66))
     closest_left_index = left_index - (left_index %% 8)
-    left_val = as.numeric(snapshot_row$second_leading_edge_left_val)
+    true_left_val = as.numeric(snapshot_row$second_leading_edge_left_val)
     left_frac_crossed = 0
-    if(left_val >= 18 & closest_left_index <= 504 & left_val < 24){
-      left_frac_crossed = df_benchmarking[df_benchmarking$leading_edge_index == closest_left_index & df_benchmarking$leading_edge_val == left_val - 6,]$crossed_frac
-    }
-    if(left_val >= 24){
-      left_frac_crossed = 1
-    }
     # Calculate cross probability on the right edge
     right_index = as.numeric(snapshot_row$second_leading_edge_right_index)
     right_index = max(right_index, 512 - updates_remaining)
     closest_right_index = right_index - (right_index %% 8)
-    right_val = as.numeric(snapshot_row$second_leading_edge_right_val)
-    right_frac_crossed = 0
-    if(right_val >= 18 & right_val < 24 & right_index <= 504){
-      right_frac_crossed = df_benchmarking[df_benchmarking$leading_edge_index == closest_right_index & df_benchmarking$leading_edge_val == right_val - 6,]$crossed_frac
-    } 
-    if(right_val >= 24){
-      right_frac_crossed = 1
+    true_right_val = as.numeric(snapshot_row$second_leading_edge_right_val)
+    for(val in 12:17){
+      left_frac_crossed = df_benchmarking[df_benchmarking$leading_edge_index == closest_left_index & df_benchmarking$leading_edge_val == val,]$crossed_frac
+      right_frac_crossed = df_benchmarking[df_benchmarking$leading_edge_index == closest_right_index & df_benchmarking$leading_edge_val == val,]$crossed_frac
+      df_adjusted_benchmarking[nrow(df_adjusted_benchmarking) + 1,] = c(
+        update, 
+        val, left_index, left_frac_crossed, true_left_val,
+        val, right_index, right_frac_crossed, true_right_val
+      )
     }
-    
-    df_adjusted_benchmarking[nrow(df_adjusted_benchmarking) + 1,] = c(
-      update, 
-      left_val, left_index, left_frac_crossed, 
-      right_val, right_index, right_frac_crossed
-    )
   }
-  df_adjusted_benchmarking$full_estimate = 1 - ((1 - df_adjusted_benchmarking$left_frac_crossed) * (1 - df_adjusted_benchmarking$right_frac_crossed))
+  #df_adjusted_benchmarking$full_estimate = 1 - ((1 - df_adjusted_benchmarking$left_frac_crossed) * (1 - df_adjusted_benchmarking$right_frac_crossed))
   return(df_adjusted_benchmarking) 
 
 }
@@ -139,15 +131,24 @@ plot_replay_with_adjusted_benchmark = function(rep_id, processed_data_dir, plot_
   # Calculate the benchmarking probabilities of the second cross
   df_second_cross_benchmarking = adjust_benchmarking_for_second_cross(df_benchmarking, df_snapshot)
   
+  #ggplot(df_second_cross_summary, aes(x = replay_gen, y = frac_crossed)) + 
+  #  geom_line(data = df_second_cross_benchmarking, aes(x = update, y = full_estimate)) + 
+  #  geom_line() + 
+  #  geom_point() + 
+  #  scale_y_continuous(limits = c(0,1)) + 
+  #  xlab('Update') + 
+  #  ylab('Potential to cross')
+  #ggsave(paste0(rep_plot_dir, '/script_', script_id, '__plot_02__second_cross_estimate.png'), units = 'in', width = 8, height = 6)
+  
   ggplot(df_second_cross_summary, aes(x = replay_gen, y = frac_crossed)) + 
-    geom_line(data = df_second_cross_benchmarking, aes(x = update, y = full_estimate)) + 
+    geom_line(data = df_second_cross_benchmarking[!is.na(df_second_cross_benchmarking$left_frac_crossed),], aes(x = update, y = left_frac_crossed, color = as.factor(left_leading_edge_val))) + 
+    geom_line(data = df_second_cross_benchmarking[!is.na(df_second_cross_benchmarking$right_frac_crossed),], aes(x = update, y = right_frac_crossed, color = as.factor(right_leading_edge_val)), linetype = 'dashed') + 
     geom_line() + 
-    geom_point() + 
+    #geom_point() + 
     scale_y_continuous(limits = c(0,1)) + 
     xlab('Update') + 
     ylab('Potential to cross')
-  ggsave(paste0(rep_plot_dir, '/script_', script_id, '__plot_02__second_cross_estimate.png'), units = 'in', width = 8, height = 6)
-  
+  ggsave(paste0(rep_plot_dir, '/script_', script_id, '__plot_03__second_cross_with_benchmark.png'), units = 'in', width = 8, height = 6)
   
 }
 
@@ -175,7 +176,13 @@ rep_id = '124'
 #}
 
 # Plot our 10 randomly-selected single-cross reps
-for(rep_id in c('011','050','075','083','105','282','343','400','408','415')){
+#for(rep_id in c('011','050','075','083','105','282','343','400','408','415')){
+#  cat('Rep id: ', rep_id, '\n')
+#  plot_replay_with_adjusted_benchmark(rep_id, processed_data_dir, plot_dir)
+#}
+
+# Plot our three selected replicates (for easy access)
+for(rep_id in c('400', '263', '339')){
   cat('Rep id: ', rep_id, '\n')
   plot_replay_with_adjusted_benchmark(rep_id, processed_data_dir, plot_dir)
 }
