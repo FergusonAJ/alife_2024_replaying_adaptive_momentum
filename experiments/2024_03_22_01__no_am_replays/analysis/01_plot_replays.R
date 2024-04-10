@@ -43,7 +43,12 @@ plot_replay_data = function(rep_id, num_total_reps, processed_data_dir, plot_dir
   # Summarize our data into a more usable format and save
   df_rep_summary = summarize_replay_data(df_rep, num_total_reps)
   write.csv(df_rep_summary, paste0(processed_data_dir, '/processed_summary_rep_', rep_id, '.csv'), row.names = F)
+ 
+  max_potentiation = max(df_rep_summary$frac_crossed)
+  max_potentiation_first_update = min(df_rep_summary[df_rep_summary$frac_crossed == max_potentiation,]$replay_gen)
+  cat('Max potentiation was ', max_potentiation, ' first seen at generation ', max_potentiation_first_update, '\n')
   
+   
   # Summarize our second cross data into a more usable format and save
   df_second_cross_summary = summarize_second_cross_data(df_rep, num_total_reps)
   write.csv(df_second_cross_summary, paste0(processed_data_dir, '/processed_second_cross_summary_rep_', rep_id, '.csv'), row.names = F)
@@ -82,26 +87,14 @@ num_total_reps = 1000
 processed_data_dir = '../data/processed'
 plot_dir = '../plots'
 
-## Plot the replicates that cross twice
-#for(rep_id in c('093', '124', '138', '263')){
+## Plot our 10 randomly-selected single-cross reps and our double cross rep
+#for(rep_id in c('00833', '01357', '02290', '02359', '03149', '05295', '07051', '07605', '07916', '09839', '05501')){
 #  cat('Rep id: ', rep_id, '\n')
 #  plot_replay_data(rep_id, num_total_reps, processed_data_dir, plot_dir)
 #}
 
-## Plot some replicates that cross once
-#for(rep_id in c('011', '014', '023', '026', '049')){
-#  cat('Rep id: ', rep_id, '\n')
-#  plot_replay_data(rep_id, num_total_reps, processed_data_dir, plot_dir)
-#}
-
-## Plot our 10 randomly-selected no-cross reps
-#for(rep_id in c('134',  '158', '164', '175', '252', '339', '365', '394', '446', '450')){
-#  cat('Rep id: ', rep_id, '\n')
-#  plot_replay_data(rep_id, num_total_reps, processed_data_dir, plot_dir)
-#}
-
-# Plot our 10 randomly-selected single-cross reps
-for(rep_id in c('011','050','075','083','105','282','343','400','408','415')){
+# Plot our 10 randomly-selected no-cross reps
+for(rep_id in c('01164', '01435', '01572', '02581', '02711', '02961', '04390', '06116', '06583', '08366')){
   cat('Rep id: ', rep_id, '\n')
   plot_replay_data(rep_id, num_total_reps, processed_data_dir, plot_dir)
 }
