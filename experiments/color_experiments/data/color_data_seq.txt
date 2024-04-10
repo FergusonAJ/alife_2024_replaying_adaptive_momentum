@@ -1,0 +1,26 @@
+// Anything after a // is a comment
+// ORDER matters! The lines are expected to be in this fixed order
+// Pound signs (#) and whitespace are optional
+
+#46353A // (5)  <p1
+#fdd0a2 // (6)  p1
+#fdae6b // (7)  p1 + 1
+#fd8d3c // (8)  p1 + 2
+#f16913 // (9)  p1 + 3
+#d94801 // (10) p1 + 4
+#8c2d04 // (11) p1 + 5
+#c6dbef // (12) p2
+//#ff0000 // (12) p2
+#9ecae1 // (13) p2 + 1
+#6baed6 // (14) p2 + 2
+#4292c6 // (15) p2 + 3
+#2171b5 // (16) p2 + 4
+#084594 // (17) p2 + 5
+#c7e9c0 // (18) p3
+#a1d99b // (19) p3 + 1
+#74c476 // (20) p3 + 2
+#41ab5d // (21) p3 + 3
+#238b45 // (22) p3 + 4
+#005a32 // (23) p3 + 5
+#dadaeb // (24) p4
+#6a51a3 // (25) >p4
