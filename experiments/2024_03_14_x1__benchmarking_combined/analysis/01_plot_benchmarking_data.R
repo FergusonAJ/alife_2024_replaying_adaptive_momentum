@@ -7,7 +7,7 @@ if(!dir.exists(plot_dir)){
   dir.create(plot_dir, recursive = T)
 }
 
-df_summary = read.csv('../data/combined_benchmarking_data.csv')
+df_summary = read.csv('../data/summarized_benchmarking_data.csv')
 
 ggplot(df_summary, aes(x = leading_edge_index, y = crossed_frac, color = as.factor(leading_edge_val))) + 
   geom_line() + 
