@@ -3,7 +3,7 @@
 
 This repo contains the supplemental material for our ALife 2024 submission. 
 
-To view the extra plots mentioned in the main paper, see the online supplement here: (LINK)
+To view the extra plots mentioned in the main paper, see the online supplement here: [https://FergusonAJ.github.io/alife_2024_supplement/](https://FergusonAJ.github.io/alife_2024_supplement/).
 
 The rest of this repository contains the source code, configuration files, and analyses to replicate this work. 
 These files are organized into experiments in the `experiments` subdirectory. 

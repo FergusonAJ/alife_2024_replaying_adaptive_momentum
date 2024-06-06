@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Section 2 Replaying disequilibrium populations | Supplement for: “Predicting the Unpredictable: Using replay experiments to disentangle how evolutionary outcomes are altered by adaptive momentum”</title>
+  <meta name="description" content="Supplemental material for our 2024 ALife submission" />
+  <meta name="generator" content="bookdown 0.28 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Section 2 Replaying disequilibrium populations | Supplement for: “Predicting the Unpredictable: Using replay experiments to disentangle how evolutionary outcomes are altered by adaptive momentum”" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Supplemental material for our 2024 ALife submission" />
+  <meta name="github-repo" content="FergusonAJ/alife_2024_replaying_adaptive_momentum" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Section 2 Replaying disequilibrium populations | Supplement for: “Predicting the Unpredictable: Using replay experiments to disentangle how evolutionary outcomes are altered by adaptive momentum”" />
+  
+  <meta name="twitter:description" content="Supplemental material for our 2024 ALife submission" />
+  
+
+<meta name="author" content="Austin J. Ferguson, Charles Ofria, Clifford Bohm" />
+
+
+<meta name="date" content="2024-06-06" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="replaying-equilibrium-populations.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Predicting the Unpredictable: Using replay experiments to disentangle how evolutionary outcomes are altered by adaptive momentum</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="replaying-disequilibrium-populations.html"><a href="replaying-disequilibrium-populations.html"><i class="fa fa-check"></i><b>2</b> Replaying disequilibrium populations</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="replaying-disequilibrium-populations.html"><a href="replaying-disequilibrium-populations.html#dependencies"><i class="fa fa-check"></i><b>2.1</b> Dependencies</a></li>
+<li class="chapter" data-level="2.2" data-path="replaying-disequilibrium-populations.html"><a href="replaying-disequilibrium-populations.html#populations-that-did-not-cross"><i class="fa fa-check"></i><b>2.2</b> Populations that did not cross</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="replaying-disequilibrium-populations.html"><a href="replaying-disequilibrium-populations.html#seed-134"><i class="fa fa-check"></i><b>2.2.1</b> Seed 134</a></li>
+<li class="chapter" data-level="2.2.2" data-path="replaying-disequilibrium-populations.html"><a href="replaying-disequilibrium-populations.html#seed-158"><i class="fa fa-check"></i><b>2.2.2</b> Seed 158</a></li>
+<li class="chapter" data-level="2.2.3" data-path="replaying-disequilibrium-populations.html"><a href="replaying-disequilibrium-populations.html#seed-164"><i class="fa fa-check"></i><b>2.2.3</b> Seed 164</a></li>
+<li class="chapter" data-level="2.2.4" data-path="replaying-disequilibrium-populations.html"><a href="replaying-disequilibrium-populations.html#seed-175"><i class="fa fa-check"></i><b>2.2.4</b> Seed 175</a></li>
+<li class="chapter" data-level="2.2.5" data-path="replaying-disequilibrium-populations.html"><a href="replaying-disequilibrium-populations.html#seed-252"><i class="fa fa-check"></i><b>2.2.5</b> Seed 252</a></li>
+<li class="chapter" data-level="2.2.6" data-path="replaying-disequilibrium-populations.html"><a href="replaying-disequilibrium-populations.html#seed-339"><i class="fa fa-check"></i><b>2.2.6</b> Seed 339</a></li>
+<li class="chapter" data-level="2.2.7" data-path="replaying-disequilibrium-populations.html"><a href="replaying-disequilibrium-populations.html#seed-365"><i class="fa fa-check"></i><b>2.2.7</b> Seed 365</a></li>
+<li class="chapter" data-level="2.2.8" data-path="replaying-disequilibrium-populations.html"><a href="replaying-disequilibrium-populations.html#seed-394"><i class="fa fa-check"></i><b>2.2.8</b> Seed 394</a></li>
+<li class="chapter" data-level="2.2.9" data-path="replaying-disequilibrium-populations.html"><a href="replaying-disequilibrium-populations.html#seed-446"><i class="fa fa-check"></i><b>2.2.9</b> Seed 446</a></li>
+<li class="chapter" data-level="2.2.10" data-path="replaying-disequilibrium-populations.html"><a href="replaying-disequilibrium-populations.html#seed-450"><i class="fa fa-check"></i><b>2.2.10</b> Seed 450</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="replaying-disequilibrium-populations.html"><a href="replaying-disequilibrium-populations.html#populations-that-crossed-once"><i class="fa fa-check"></i><b>2.3</b> Populations that crossed once</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="replaying-disequilibrium-populations.html"><a href="replaying-disequilibrium-populations.html#seed-011"><i class="fa fa-check"></i><b>2.3.1</b> Seed 011</a></li>
+<li class="chapter" data-level="2.3.2" data-path="replaying-disequilibrium-populations.html"><a href="replaying-disequilibrium-populations.html#seed-050"><i class="fa fa-check"></i><b>2.3.2</b> Seed 050</a></li>
+<li class="chapter" data-level="2.3.3" data-path="replaying-disequilibrium-populations.html"><a href="replaying-disequilibrium-populations.html#seed-075"><i class="fa fa-check"></i><b>2.3.3</b> Seed 075</a></li>
+<li class="chapter" data-level="2.3.4" data-path="replaying-disequilibrium-populations.html"><a href="replaying-disequilibrium-populations.html#seed-083"><i class="fa fa-check"></i><b>2.3.4</b> Seed 083</a></li>
+<li class="chapter" data-level="2.3.5" data-path="replaying-disequilibrium-populations.html"><a href="replaying-disequilibrium-populations.html#seed-105"><i class="fa fa-check"></i><b>2.3.5</b> Seed 105</a></li>
+<li class="chapter" data-level="2.3.6" data-path="replaying-disequilibrium-populations.html"><a href="replaying-disequilibrium-populations.html#seed-282"><i class="fa fa-check"></i><b>2.3.6</b> Seed 282</a></li>
+<li class="chapter" data-level="2.3.7" data-path="replaying-disequilibrium-populations.html"><a href="replaying-disequilibrium-populations.html#seed-343"><i class="fa fa-check"></i><b>2.3.7</b> Seed 343</a></li>
+<li class="chapter" data-level="2.3.8" data-path="replaying-disequilibrium-populations.html"><a href="replaying-disequilibrium-populations.html#seed-400"><i class="fa fa-check"></i><b>2.3.8</b> Seed 400</a></li>
+<li class="chapter" data-level="2.3.9" data-path="replaying-disequilibrium-populations.html"><a href="replaying-disequilibrium-populations.html#seed-408"><i class="fa fa-check"></i><b>2.3.9</b> Seed 408</a></li>
+<li class="chapter" data-level="2.3.10" data-path="replaying-disequilibrium-populations.html"><a href="replaying-disequilibrium-populations.html#seed-415"><i class="fa fa-check"></i><b>2.3.10</b> Seed 415</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="replaying-disequilibrium-populations.html"><a href="replaying-disequilibrium-populations.html#populations-that-crossed-twice"><i class="fa fa-check"></i><b>2.4</b> Populations that crossed twice</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="replaying-disequilibrium-populations.html"><a href="replaying-disequilibrium-populations.html#seed-093"><i class="fa fa-check"></i><b>2.4.1</b> Seed 093</a></li>
+<li class="chapter" data-level="2.4.2" data-path="replaying-disequilibrium-populations.html"><a href="replaying-disequilibrium-populations.html#seed-124"><i class="fa fa-check"></i><b>2.4.2</b> Seed 124</a></li>
+<li class="chapter" data-level="2.4.3" data-path="replaying-disequilibrium-populations.html"><a href="replaying-disequilibrium-populations.html#seed-138"><i class="fa fa-check"></i><b>2.4.3</b> Seed 138</a></li>
+<li class="chapter" data-level="2.4.4" data-path="replaying-disequilibrium-populations.html"><a href="replaying-disequilibrium-populations.html#seed-263"><i class="fa fa-check"></i><b>2.4.4</b> Seed 263</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="replaying-equilibrium-populations.html"><a href="replaying-equilibrium-populations.html"><i class="fa fa-check"></i><b>3</b> Replaying equilibrium populations</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="replaying-equilibrium-populations.html"><a href="replaying-equilibrium-populations.html#dependencies-1"><i class="fa fa-check"></i><b>3.1</b> Dependencies</a></li>
+<li class="chapter" data-level="3.2" data-path="replaying-equilibrium-populations.html"><a href="replaying-equilibrium-populations.html#populations-that-did-not-cross-1"><i class="fa fa-check"></i><b>3.2</b> Populations that did not cross</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="replaying-equilibrium-populations.html"><a href="replaying-equilibrium-populations.html#seed-01164"><i class="fa fa-check"></i><b>3.2.1</b> Seed 01164</a></li>
+<li class="chapter" data-level="3.2.2" data-path="replaying-equilibrium-populations.html"><a href="replaying-equilibrium-populations.html#seed-01435"><i class="fa fa-check"></i><b>3.2.2</b> Seed 01435</a></li>
+<li class="chapter" data-level="3.2.3" data-path="replaying-equilibrium-populations.html"><a href="replaying-equilibrium-populations.html#seed-01572"><i class="fa fa-check"></i><b>3.2.3</b> Seed 01572</a></li>
+<li class="chapter" data-level="3.2.4" data-path="replaying-equilibrium-populations.html"><a href="replaying-equilibrium-populations.html#seed-02581"><i class="fa fa-check"></i><b>3.2.4</b> Seed 02581</a></li>
+<li class="chapter" data-level="3.2.5" data-path="replaying-equilibrium-populations.html"><a href="replaying-equilibrium-populations.html#seed-02711"><i class="fa fa-check"></i><b>3.2.5</b> Seed 02711</a></li>
+<li class="chapter" data-level="3.2.6" data-path="replaying-equilibrium-populations.html"><a href="replaying-equilibrium-populations.html#seed-02961"><i class="fa fa-check"></i><b>3.2.6</b> Seed 02961</a></li>
+<li class="chapter" data-level="3.2.7" data-path="replaying-equilibrium-populations.html"><a href="replaying-equilibrium-populations.html#seed-04390"><i class="fa fa-check"></i><b>3.2.7</b> Seed 04390</a></li>
+<li class="chapter" data-level="3.2.8" data-path="replaying-equilibrium-populations.html"><a href="replaying-equilibrium-populations.html#seed-06116"><i class="fa fa-check"></i><b>3.2.8</b> Seed 06116</a></li>
+<li class="chapter" data-level="3.2.9" data-path="replaying-equilibrium-populations.html"><a href="replaying-equilibrium-populations.html#seed-06583"><i class="fa fa-check"></i><b>3.2.9</b> Seed 06583</a></li>
+<li class="chapter" data-level="3.2.10" data-path="replaying-equilibrium-populations.html"><a href="replaying-equilibrium-populations.html#seed-08366"><i class="fa fa-check"></i><b>3.2.10</b> Seed 08366</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="replaying-equilibrium-populations.html"><a href="replaying-equilibrium-populations.html#populations-that-crossed-once-1"><i class="fa fa-check"></i><b>3.3</b> Populations that crossed once</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="replaying-equilibrium-populations.html"><a href="replaying-equilibrium-populations.html#seed-00833"><i class="fa fa-check"></i><b>3.3.1</b> Seed 00833</a></li>
+<li class="chapter" data-level="3.3.2" data-path="replaying-equilibrium-populations.html"><a href="replaying-equilibrium-populations.html#seed-01357"><i class="fa fa-check"></i><b>3.3.2</b> Seed 01357</a></li>
+<li class="chapter" data-level="3.3.3" data-path="replaying-equilibrium-populations.html"><a href="replaying-equilibrium-populations.html#seed-02290"><i class="fa fa-check"></i><b>3.3.3</b> Seed 02290</a></li>
+<li class="chapter" data-level="3.3.4" data-path="replaying-equilibrium-populations.html"><a href="replaying-equilibrium-populations.html#seed-02359"><i class="fa fa-check"></i><b>3.3.4</b> Seed 02359</a></li>
+<li class="chapter" data-level="3.3.5" data-path="replaying-equilibrium-populations.html"><a href="replaying-equilibrium-populations.html#seed-03149"><i class="fa fa-check"></i><b>3.3.5</b> Seed 03149</a></li>
+<li class="chapter" data-level="3.3.6" data-path="replaying-equilibrium-populations.html"><a href="replaying-equilibrium-populations.html#seed-05295"><i class="fa fa-check"></i><b>3.3.6</b> Seed 05295</a></li>
+<li class="chapter" data-level="3.3.7" data-path="replaying-equilibrium-populations.html"><a href="replaying-equilibrium-populations.html#seed-07051"><i class="fa fa-check"></i><b>3.3.7</b> Seed 07051</a></li>
+<li class="chapter" data-level="3.3.8" data-path="replaying-equilibrium-populations.html"><a href="replaying-equilibrium-populations.html#seed-07605"><i class="fa fa-check"></i><b>3.3.8</b> Seed 07605</a></li>
+<li class="chapter" data-level="3.3.9" data-path="replaying-equilibrium-populations.html"><a href="replaying-equilibrium-populations.html#seed-07916"><i class="fa fa-check"></i><b>3.3.9</b> Seed 07916</a></li>
+<li class="chapter" data-level="3.3.10" data-path="replaying-equilibrium-populations.html"><a href="replaying-equilibrium-populations.html#seed-09839"><i class="fa fa-check"></i><b>3.3.10</b> Seed 09839</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="replaying-equilibrium-populations.html"><a href="replaying-equilibrium-populations.html#populations-that-crossed-twice-1"><i class="fa fa-check"></i><b>3.4</b> Populations that crossed twice</a>
+<ul>
+<li class="chapter" data-level="3.4.1" data-path="replaying-equilibrium-populations.html"><a href="replaying-equilibrium-populations.html#seed-05501"><i class="fa fa-check"></i><b>3.4.1</b> Seed 05501</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="replaying-shuffled-populations.html"><a href="replaying-shuffled-populations.html"><i class="fa fa-check"></i><b>4</b> Replaying shuffled populations</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="replaying-shuffled-populations.html"><a href="replaying-shuffled-populations.html#dependencies-2"><i class="fa fa-check"></i><b>4.1</b> Dependencies</a></li>
+<li class="chapter" data-level="4.2" data-path="replaying-shuffled-populations.html"><a href="replaying-shuffled-populations.html#populations-that-crossed-once-2"><i class="fa fa-check"></i><b>4.2</b> Populations that crossed once</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="replaying-shuffled-populations.html"><a href="replaying-shuffled-populations.html#seed-011-1"><i class="fa fa-check"></i><b>4.2.1</b> Seed 011</a></li>
+<li class="chapter" data-level="4.2.2" data-path="replaying-shuffled-populations.html"><a href="replaying-shuffled-populations.html#seed-050-1"><i class="fa fa-check"></i><b>4.2.2</b> Seed 050</a></li>
+<li class="chapter" data-level="4.2.3" data-path="replaying-shuffled-populations.html"><a href="replaying-shuffled-populations.html#seed-075-1"><i class="fa fa-check"></i><b>4.2.3</b> Seed 075</a></li>
+<li class="chapter" data-level="4.2.4" data-path="replaying-shuffled-populations.html"><a href="replaying-shuffled-populations.html#seed-083-1"><i class="fa fa-check"></i><b>4.2.4</b> Seed 083</a></li>
+<li class="chapter" data-level="4.2.5" data-path="replaying-shuffled-populations.html"><a href="replaying-shuffled-populations.html#seed-105-1"><i class="fa fa-check"></i><b>4.2.5</b> Seed 105</a></li>
+<li class="chapter" data-level="4.2.6" data-path="replaying-shuffled-populations.html"><a href="replaying-shuffled-populations.html#seed-282-1"><i class="fa fa-check"></i><b>4.2.6</b> Seed 282</a></li>
+<li class="chapter" data-level="4.2.7" data-path="replaying-shuffled-populations.html"><a href="replaying-shuffled-populations.html#seed-343-1"><i class="fa fa-check"></i><b>4.2.7</b> Seed 343</a></li>
+<li class="chapter" data-level="4.2.8" data-path="replaying-shuffled-populations.html"><a href="replaying-shuffled-populations.html#seed-400-1"><i class="fa fa-check"></i><b>4.2.8</b> Seed 400</a></li>
+<li class="chapter" data-level="4.2.9" data-path="replaying-shuffled-populations.html"><a href="replaying-shuffled-populations.html#seed-408-1"><i class="fa fa-check"></i><b>4.2.9</b> Seed 408</a></li>
+<li class="chapter" data-level="4.2.10" data-path="replaying-shuffled-populations.html"><a href="replaying-shuffled-populations.html#seed-415-1"><i class="fa fa-check"></i><b>4.2.10</b> Seed 415</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with ❤ and bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Supplement for: “Predicting the Unpredictable: Using replay experiments to disentangle how evolutionary outcomes are altered by adaptive momentum”</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="replaying-disequilibrium-populations" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Section 2</span> Replaying disequilibrium populations<a href="replaying-disequilibrium-populations.html#replaying-disequilibrium-populations" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>The paper shows fine-grained replays for three replicates that were experiencing adaptive momentum (one that failed to cross, one that crossed one valley, and one that crossed two valleys).</p>
+<p>Prior to these fine-grained replays, we replayed 24 populations at with less precision.
+We replayed every fourth generation with 1,000 replicates per replay (compared to 10,000 replicates for every generation in the fine-grained replays).
+Here we show all 24 coarse-grained replays.</p>
+<p>The functions to generate the plots are not shown here.
+They can be viewed in <code>/experiments/2024_03_18_01__replays/analysis</code></p>
+<p>For each plot, the top subplot shows the potential to cross the first valley (orange line) and the second valley (yellow line).
+The background of the top subplot shows the expectation based on the position of the leading edge, as in the paper.
+The bottom subplot shows the state of the population at each generation of the original replicate.</p>
+<div id="dependencies" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Dependencies<a href="replaying-disequilibrium-populations.html#dependencies" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="replaying-disequilibrium-populations.html#cb1-1" aria-hidden="true"></a><span class="co"># External</span></span>
+<span id="cb1-2"><a href="replaying-disequilibrium-populations.html#cb1-2" aria-hidden="true"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb1-3"><a href="replaying-disequilibrium-populations.html#cb1-3" aria-hidden="true"></a><span class="kw">library</span>(dplyr)</span>
+<span id="cb1-4"><a href="replaying-disequilibrium-populations.html#cb1-4" aria-hidden="true"></a><span class="kw">library</span>(cowplot)</span>
+<span id="cb1-5"><a href="replaying-disequilibrium-populations.html#cb1-5" aria-hidden="true"></a></span>
+<span id="cb1-6"><a href="replaying-disequilibrium-populations.html#cb1-6" aria-hidden="true"></a>base_repo_dir =<span class="st"> &#39;../..&#39;</span></span>
+<span id="cb1-7"><a href="replaying-disequilibrium-populations.html#cb1-7" aria-hidden="true"></a>exp_dir =<span class="st"> </span><span class="kw">paste0</span>(base_repo_dir, <span class="st">&#39;/experiments/2024_03_18_01__replays/&#39;</span>)</span>
+<span id="cb1-8"><a href="replaying-disequilibrium-populations.html#cb1-8" aria-hidden="true"></a></span>
+<span id="cb1-9"><a href="replaying-disequilibrium-populations.html#cb1-9" aria-hidden="true"></a><span class="co"># Internal</span></span>
+<span id="cb1-10"><a href="replaying-disequilibrium-populations.html#cb1-10" aria-hidden="true"></a><span class="kw">source</span>(<span class="kw">paste0</span>(base_repo_dir, <span class="st">&#39;/global_shared_files/global_analysis_variables.R&#39;</span>))</span></code></pre></div>
+</div>
+<div id="populations-that-did-not-cross" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Populations that did not cross<a href="replaying-disequilibrium-populations.html#populations-that-did-not-cross" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="seed-134" class="section level3 hasAnchor" number="2.2.1">
+<h3><span class="header-section-number">2.2.1</span> Seed 134<a href="replaying-disequilibrium-populations.html#seed-134" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="replaying-disequilibrium-populations.html#cb2-1" aria-hidden="true"></a><span class="kw">plot_replay_with_adjusted_benchmark</span>(<span class="st">&#39;134&#39;</span>)</span></code></pre></div>
+<p><img src="alife_2024_supplement_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+</div>
+<div id="seed-158" class="section level3 hasAnchor" number="2.2.2">
+<h3><span class="header-section-number">2.2.2</span> Seed 158<a href="replaying-disequilibrium-populations.html#seed-158" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="replaying-disequilibrium-populations.html#cb3-1" aria-hidden="true"></a><span class="kw">plot_replay_with_adjusted_benchmark</span>(<span class="st">&#39;158&#39;</span>)</span></code></pre></div>
+<p><img src="alife_2024_supplement_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+<div id="seed-164" class="section level3 hasAnchor" number="2.2.3">
+<h3><span class="header-section-number">2.2.3</span> Seed 164<a href="replaying-disequilibrium-populations.html#seed-164" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="replaying-disequilibrium-populations.html#cb4-1" aria-hidden="true"></a><span class="kw">plot_replay_with_adjusted_benchmark</span>(<span class="st">&#39;164&#39;</span>)</span></code></pre></div>
+<p><img src="alife_2024_supplement_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+<div id="seed-175" class="section level3 hasAnchor" number="2.2.4">
+<h3><span class="header-section-number">2.2.4</span> Seed 175<a href="replaying-disequilibrium-populations.html#seed-175" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="replaying-disequilibrium-populations.html#cb5-1" aria-hidden="true"></a><span class="kw">plot_replay_with_adjusted_benchmark</span>(<span class="st">&#39;175&#39;</span>)</span></code></pre></div>
+<p><img src="alife_2024_supplement_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+</div>
+<div id="seed-252" class="section level3 hasAnchor" number="2.2.5">
+<h3><span class="header-section-number">2.2.5</span> Seed 252<a href="replaying-disequilibrium-populations.html#seed-252" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="replaying-disequilibrium-populations.html#cb6-1" aria-hidden="true"></a><span class="kw">plot_replay_with_adjusted_benchmark</span>(<span class="st">&#39;252&#39;</span>)</span></code></pre></div>
+<p><img src="alife_2024_supplement_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+</div>
+<div id="seed-339" class="section level3 hasAnchor" number="2.2.6">
+<h3><span class="header-section-number">2.2.6</span> Seed 339<a href="replaying-disequilibrium-populations.html#seed-339" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Note that this is the seed in Figure 6 of the paper.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="replaying-disequilibrium-populations.html#cb7-1" aria-hidden="true"></a><span class="kw">plot_replay_with_adjusted_benchmark</span>(<span class="st">&#39;339&#39;</span>)</span></code></pre></div>
+<p><img src="alife_2024_supplement_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+</div>
+<div id="seed-365" class="section level3 hasAnchor" number="2.2.7">
+<h3><span class="header-section-number">2.2.7</span> Seed 365<a href="replaying-disequilibrium-populations.html#seed-365" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="replaying-disequilibrium-populations.html#cb8-1" aria-hidden="true"></a><span class="kw">plot_replay_with_adjusted_benchmark</span>(<span class="st">&#39;365&#39;</span>)</span></code></pre></div>
+<p><img src="alife_2024_supplement_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+</div>
+<div id="seed-394" class="section level3 hasAnchor" number="2.2.8">
+<h3><span class="header-section-number">2.2.8</span> Seed 394<a href="replaying-disequilibrium-populations.html#seed-394" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="replaying-disequilibrium-populations.html#cb9-1" aria-hidden="true"></a><span class="kw">plot_replay_with_adjusted_benchmark</span>(<span class="st">&#39;394&#39;</span>)</span></code></pre></div>
+<p><img src="alife_2024_supplement_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+</div>
+<div id="seed-446" class="section level3 hasAnchor" number="2.2.9">
+<h3><span class="header-section-number">2.2.9</span> Seed 446<a href="replaying-disequilibrium-populations.html#seed-446" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="replaying-disequilibrium-populations.html#cb10-1" aria-hidden="true"></a><span class="kw">plot_replay_with_adjusted_benchmark</span>(<span class="st">&#39;446&#39;</span>)</span></code></pre></div>
+<p><img src="alife_2024_supplement_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+</div>
+<div id="seed-450" class="section level3 hasAnchor" number="2.2.10">
+<h3><span class="header-section-number">2.2.10</span> Seed 450<a href="replaying-disequilibrium-populations.html#seed-450" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="replaying-disequilibrium-populations.html#cb11-1" aria-hidden="true"></a><span class="kw">plot_replay_with_adjusted_benchmark</span>(<span class="st">&#39;450&#39;</span>)</span></code></pre></div>
+<p><img src="alife_2024_supplement_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+</div>
+</div>
+<div id="populations-that-crossed-once" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> Populations that crossed once<a href="replaying-disequilibrium-populations.html#populations-that-crossed-once" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="seed-011" class="section level3 hasAnchor" number="2.3.1">
+<h3><span class="header-section-number">2.3.1</span> Seed 011<a href="replaying-disequilibrium-populations.html#seed-011" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="replaying-disequilibrium-populations.html#cb12-1" aria-hidden="true"></a><span class="kw">plot_replay_with_adjusted_benchmark</span>(<span class="st">&#39;011&#39;</span>)</span></code></pre></div>
+<p><img src="alife_2024_supplement_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+</div>
+<div id="seed-050" class="section level3 hasAnchor" number="2.3.2">
+<h3><span class="header-section-number">2.3.2</span> Seed 050<a href="replaying-disequilibrium-populations.html#seed-050" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="replaying-disequilibrium-populations.html#cb13-1" aria-hidden="true"></a><span class="kw">plot_replay_with_adjusted_benchmark</span>(<span class="st">&#39;050&#39;</span>)</span></code></pre></div>
+<p><img src="alife_2024_supplement_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+</div>
+<div id="seed-075" class="section level3 hasAnchor" number="2.3.3">
+<h3><span class="header-section-number">2.3.3</span> Seed 075<a href="replaying-disequilibrium-populations.html#seed-075" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="replaying-disequilibrium-populations.html#cb14-1" aria-hidden="true"></a><span class="kw">plot_replay_with_adjusted_benchmark</span>(<span class="st">&#39;075&#39;</span>)</span></code></pre></div>
+<p><img src="alife_2024_supplement_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+</div>
+<div id="seed-083" class="section level3 hasAnchor" number="2.3.4">
+<h3><span class="header-section-number">2.3.4</span> Seed 083<a href="replaying-disequilibrium-populations.html#seed-083" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="replaying-disequilibrium-populations.html#cb15-1" aria-hidden="true"></a><span class="kw">plot_replay_with_adjusted_benchmark</span>(<span class="st">&#39;083&#39;</span>)</span></code></pre></div>
+<p><img src="alife_2024_supplement_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+</div>
+<div id="seed-105" class="section level3 hasAnchor" number="2.3.5">
+<h3><span class="header-section-number">2.3.5</span> Seed 105<a href="replaying-disequilibrium-populations.html#seed-105" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="replaying-disequilibrium-populations.html#cb16-1" aria-hidden="true"></a><span class="kw">plot_replay_with_adjusted_benchmark</span>(<span class="st">&#39;105&#39;</span>)</span></code></pre></div>
+<p><img src="alife_2024_supplement_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+</div>
+<div id="seed-282" class="section level3 hasAnchor" number="2.3.6">
+<h3><span class="header-section-number">2.3.6</span> Seed 282<a href="replaying-disequilibrium-populations.html#seed-282" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="replaying-disequilibrium-populations.html#cb17-1" aria-hidden="true"></a><span class="kw">plot_replay_with_adjusted_benchmark</span>(<span class="st">&#39;282&#39;</span>)</span></code></pre></div>
+<p><img src="alife_2024_supplement_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+</div>
+<div id="seed-343" class="section level3 hasAnchor" number="2.3.7">
+<h3><span class="header-section-number">2.3.7</span> Seed 343<a href="replaying-disequilibrium-populations.html#seed-343" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="replaying-disequilibrium-populations.html#cb18-1" aria-hidden="true"></a><span class="kw">plot_replay_with_adjusted_benchmark</span>(<span class="st">&#39;343&#39;</span>)</span></code></pre></div>
+<p><img src="alife_2024_supplement_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+</div>
+<div id="seed-400" class="section level3 hasAnchor" number="2.3.8">
+<h3><span class="header-section-number">2.3.8</span> Seed 400<a href="replaying-disequilibrium-populations.html#seed-400" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Note that this is the seed in Figure 4 of the paper.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="replaying-disequilibrium-populations.html#cb19-1" aria-hidden="true"></a><span class="kw">plot_replay_with_adjusted_benchmark</span>(<span class="st">&#39;400&#39;</span>)</span></code></pre></div>
+<p><img src="alife_2024_supplement_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+</div>
+<div id="seed-408" class="section level3 hasAnchor" number="2.3.9">
+<h3><span class="header-section-number">2.3.9</span> Seed 408<a href="replaying-disequilibrium-populations.html#seed-408" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="replaying-disequilibrium-populations.html#cb20-1" aria-hidden="true"></a><span class="kw">plot_replay_with_adjusted_benchmark</span>(<span class="st">&#39;408&#39;</span>)</span></code></pre></div>
+<p><img src="alife_2024_supplement_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+</div>
+<div id="seed-415" class="section level3 hasAnchor" number="2.3.10">
+<h3><span class="header-section-number">2.3.10</span> Seed 415<a href="replaying-disequilibrium-populations.html#seed-415" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="replaying-disequilibrium-populations.html#cb21-1" aria-hidden="true"></a><span class="kw">plot_replay_with_adjusted_benchmark</span>(<span class="st">&#39;415&#39;</span>)</span></code></pre></div>
+<p><img src="alife_2024_supplement_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+</div>
+</div>
+<div id="populations-that-crossed-twice" class="section level2 hasAnchor" number="2.4">
+<h2><span class="header-section-number">2.4</span> Populations that crossed twice<a href="replaying-disequilibrium-populations.html#populations-that-crossed-twice" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="seed-093" class="section level3 hasAnchor" number="2.4.1">
+<h3><span class="header-section-number">2.4.1</span> Seed 093<a href="replaying-disequilibrium-populations.html#seed-093" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="replaying-disequilibrium-populations.html#cb22-1" aria-hidden="true"></a><span class="kw">plot_replay_with_adjusted_benchmark</span>(<span class="st">&#39;093&#39;</span>)</span></code></pre></div>
+<p><img src="alife_2024_supplement_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+</div>
+<div id="seed-124" class="section level3 hasAnchor" number="2.4.2">
+<h3><span class="header-section-number">2.4.2</span> Seed 124<a href="replaying-disequilibrium-populations.html#seed-124" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="replaying-disequilibrium-populations.html#cb23-1" aria-hidden="true"></a><span class="kw">plot_replay_with_adjusted_benchmark</span>(<span class="st">&#39;124&#39;</span>)</span></code></pre></div>
+<p><img src="alife_2024_supplement_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+</div>
+<div id="seed-138" class="section level3 hasAnchor" number="2.4.3">
+<h3><span class="header-section-number">2.4.3</span> Seed 138<a href="replaying-disequilibrium-populations.html#seed-138" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="replaying-disequilibrium-populations.html#cb24-1" aria-hidden="true"></a><span class="kw">plot_replay_with_adjusted_benchmark</span>(<span class="st">&#39;138&#39;</span>)</span></code></pre></div>
+<p><img src="alife_2024_supplement_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+</div>
+<div id="seed-263" class="section level3 hasAnchor" number="2.4.4">
+<h3><span class="header-section-number">2.4.4</span> Seed 263<a href="replaying-disequilibrium-populations.html#seed-263" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Note that this is the seed in Figure 5 of the paper.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="replaying-disequilibrium-populations.html#cb25-1" aria-hidden="true"></a><span class="kw">plot_replay_with_adjusted_benchmark</span>(<span class="st">&#39;263&#39;</span>)</span></code></pre></div>
+<p><img src="alife_2024_supplement_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="replaying-equilibrium-populations.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/FergusonAJ/alife_2024_replaying_adaptive_momentum/tree/main/supplement/alife_2024replays_am.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["alife_2024_supplement.pdf"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
