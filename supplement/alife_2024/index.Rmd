@@ -1,6 +1,6 @@
 ---
 title: "Supplement for: \"Predicting the Unpredictable: Using replay experiments to disentangle how evolutionary outcomes are altered by adaptive momentum\""
-author: "[Authors redacted for peer review]"
+author: "Austin J. Ferguson, Charles Ofria, Clifford Bohm"
 date: "`r Sys.Date()`"
 output: bookdown::gitbook
 documentclass: book
@@ -8,7 +8,7 @@ bibliography: []
 biblio-style: apalike
 nocite: '@*'
 link-citations: yes
-github-repo: AnonymousALifer/alife_2024_replaying_adaptive_momentum
+github-repo: FergusonAJ/alife_2024_replaying_adaptive_momentum
 description: "Supplemental material for our 2024 ALife submission"
 ---
 
@@ -17,4 +17,4 @@ description: "Supplemental material for our 2024 ALife submission"
 Here we show all additional graphs that would not fit in the paper.
 Please use the navigation on the left to view the different sections.
 
-For data, source code, and analyses, please refer to the GitHub repo: <https://github.com/AnonymousALifer/alife_2024_replaying_adaptive_momentum> 
+For data, source code, and analyses, please refer to the GitHub repo: <https://github.com/FergusonAJ/alife_2024_replaying_adaptive_momentum> 
